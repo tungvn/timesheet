@@ -22,7 +22,7 @@ class Timesheet extends Model
      */
     protected $fillable = [
         'date',
-        'doing',
+        'doing', // Array of \App\Timesheets\Task
         'problem',
         'plan',
     ];
