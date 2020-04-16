@@ -56,13 +56,23 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
-     * This account belongs to a leader
+     * This user belongs to a leader
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function leader()
     {
         return $this->belongsTo(self::class);
+    }
+
+    /**
+     * This user has many timesheets
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function timesheets()
+    {
+        return $this->hasMany(Timesheet::class, 'created_by');
     }
 
     /**
