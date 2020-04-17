@@ -30,7 +30,7 @@ class ApiCookieAuthentication
     private function setBearerToken(Request &$request)
     {
         $grantType = $request->input('grant_type');
-        $authCookie = $request->cookie(config('auth.cookie.auth'), '');
+        $authCookie = $request->cookie(config('auth.cookie.auth'));
         if (empty($grantType) && !empty($authCookie)) {
             $request->headers->set('Authorization', $authCookie);
         }
@@ -42,7 +42,7 @@ class ApiCookieAuthentication
     private function setRefreshTokenIfExists(Request &$request)
     {
         $grantType = $request->input('grant_type');
-        $refreshCookie = $request->cookie(config('auth.cookie.refresh'), '');
+        $refreshCookie = $request->cookie(config('auth.cookie.refresh'));
         if ($grantType === 'refresh_token' && !empty($refreshCookie)) {
             $request->request->set('refresh_token', $refreshCookie);
         }

@@ -40,6 +40,7 @@ class Kernel extends HttpKernel
 
         'api' => [
             'throttle:60,1',
+            'json.response',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
@@ -59,6 +60,7 @@ class Kernel extends HttpKernel
         'can'              => \Illuminate\Auth\Middleware\Authorize::class,
         'cookie'           => ApiCookieAuthentication::class,
         'guest'            => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'json.response'    => \App\Http\Middleware\ForceJsonResponse::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'signed'           => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle'         => \Illuminate\Routing\Middleware\ThrottleRequests::class,
@@ -75,6 +77,7 @@ class Kernel extends HttpKernel
     protected $middlewarePriority = [
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        ApiCookieAuthentication::class,
         \App\Http\Middleware\Authenticate::class,
         \Illuminate\Routing\Middleware\ThrottleRequests::class,
         \Illuminate\Session\Middleware\AuthenticateSession::class,
