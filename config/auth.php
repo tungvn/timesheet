@@ -42,9 +42,9 @@ return [
         ],
 
         'api' => [
-            'driver' => 'token',
+            'driver'   => 'passport',
             'provider' => 'users',
-            'hash' => false,
+            'hash'     => false,
         ],
     ],
 
@@ -118,9 +118,17 @@ return [
     | The keys for authentication via cookie
     */
 
-    'cookie' => [
+    'cookie'  => [
         'auth'     => env('APP_COOKIE_AUTH_TOKEN', 'auth'),
         'refresh'  => env('APP_COOKIE_REFRESH_TOKEN', 'refresh'),
         'loggedIn' => env('APP_COOKIE_LOGGED_IN', 'is_logged_in'),
+    ],
+
+    /*
+    | The timeout in hour for bearer token or refresh token
+    */
+    'timeout' => [
+        'token'         => 24,
+        'refresh_token' => 480, // = 24 * 20
     ],
 ];
