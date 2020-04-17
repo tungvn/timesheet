@@ -82,4 +82,17 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->role === self::ROLE_ADMIN;
     }
+
+    /**
+     * @param string $username
+     * @return \App\User
+     */
+    public function findForPassport(string $username)
+    {
+        if (filter_var($username, FILTER_SANITIZE_EMAIL)) {
+            return $this->where('email', $username)->first();
+        }
+
+        return $this->where('username', $username)->first();
+    }
 }

@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Observers\UserAutoHashingPassword;
+use App\Timesheets\Client;
 use App\User;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Passport\Passport;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,7 +17,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        Passport::ignoreMigrations();
+
+        Passport::useClientModel(\App\Timesheets\Passport\Client::class);
     }
 
     /**
