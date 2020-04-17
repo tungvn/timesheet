@@ -114,4 +114,13 @@ return [
 
     'password_timeout' => 10800,
 
+    /*
+    | The keys for authentication via cookie
+    */
+
+    'cookie' => [
+        'auth'     => env('APP_COOKIE_AUTH_TOKEN', 'auth'),
+        'refresh'  => env('APP_COOKIE_REFRESH_TOKEN', 'refresh'),
+        'loggedIn' => env('APP_COOKIE_LOGGED_IN', 'is_logged_in'),
+    ],
 ];
