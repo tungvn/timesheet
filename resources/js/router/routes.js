@@ -7,14 +7,6 @@ Vue.use(VueRouter);
 const routes = [
     {
         path: '/',
-        name: 'homepage',
-        component: require('./views/homepage/Index').default,
-        meta: {
-            redirectIfAuthenticated: true
-        }
-    },
-    {
-        path: '/login',
         name: 'login',
         component: require('./views/auth/Login').default,
         meta: {
@@ -51,7 +43,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.auth)) {
         if (!store.getters.loggedIn) {
-            next({path: '/login'});
+            next({path: '/'});
             return;
         }
     }
