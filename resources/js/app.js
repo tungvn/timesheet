@@ -3,6 +3,8 @@
  */
 require('./bootstrap');
 
+import Vue from 'vue';
+
 /**
  * Import Vuex and Vue-router.
  */
