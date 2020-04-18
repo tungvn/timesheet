@@ -11,7 +11,9 @@
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="root"></div>
+    <div id="root">
+        <router-view></router-view>
+    </div>
 
     <script src="{{ mix('js/app.js') }}" type="text/javascript"></script>
 </body>
