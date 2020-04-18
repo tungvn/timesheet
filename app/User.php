@@ -89,10 +89,6 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function findForPassport(string $username)
     {
-        if (filter_var($username, FILTER_SANITIZE_EMAIL)) {
-            return $this->where('email', $username)->first();
-        }
-
         return $this->where('username', $username)->first();
     }
 }
