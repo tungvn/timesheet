@@ -9,7 +9,7 @@
                     <input type="password" class="form-control" placeholder="Password" v-model="form.password" />
                 </timesheet-field>
                 <div class="row">
-                    <div class="col-8">
+                    <div class="col-6">
                         <div class="icheck-primary">
                             <input type="checkbox" id="remember">
                             <label for="remember">
@@ -17,7 +17,7 @@
                             </label>
                         </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col-6">
                         <button type="submit" class="btn btn-primary btn-block">
                             {{ isSubmit ? 'Logging...' : 'Login' }}
                         </button>

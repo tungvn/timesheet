@@ -7,6 +7,10 @@
                 <icon :icon="iconName" />
             </div>
         </div>
+
+        <div v-if="hasError" class="w-100">
+            <span class="text-danger text-sm" v-text="message"></span>
+        </div>
     </div>
 </template>
 
@@ -15,6 +19,13 @@
         name: "Field",
 
         props: {
+            hasError: {
+                type: Boolean,
+                default: false,
+            },
+            message: {
+                type: String,
+            },
             hasIcon: {
                 type: Boolean,
                 default: false,
