@@ -4,7 +4,7 @@
 
         <div v-if="hasIcon" class="input-group-append">
             <div class="input-group-text">
-                <timesheet-icon :name="iconName" />
+                <icon :icon="iconName" />
             </div>
         </div>
     </div>

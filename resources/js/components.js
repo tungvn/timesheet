@@ -7,7 +7,6 @@ const prefix = 'timesheet-';
 /**
  * Common components
  */
-Vue.component(`${prefix}icon`, require('./components/common/Icon').default);
 
 /**
  * Form
