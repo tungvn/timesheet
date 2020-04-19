@@ -48,15 +48,19 @@
 
                 this.$store.dispatch('register', this.form)
                     .then((response) => {
-                        this.$toasted.show(response.data.message, {
-                            containerClass: 'app-toasted app-toasted-center',
-                            icon: {
-                                name: 'icon success-icon',
-                            }
-                        });
+                        this.$toasted.show(response.data.message);
                     })
-                    .finally((response) => {
+                    .catch((error) => {
                         this.isSubmit = false;
+
+                        if (error && error.response && error.response.status === 422) {
+                            return Promise.reject(error);
+                        }
+
+                        const message = error && error.response && error.response.data && error.response.data.message || null;
+                        if (message) {
+                            this.$toasted.error(message);
+                        }
                     });
             },
         }

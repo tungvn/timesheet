@@ -67,11 +67,7 @@
 
                         const message = error && error.response && error.response.data && error.response.data.message || null;
                         if (message) {
-                            this.$toasted.error(message, {
-                                icon: {
-                                    name: 'icon warning-icon',
-                                }
-                            });
+                            this.$toasted.error(message);
                         }
                     });
             },
