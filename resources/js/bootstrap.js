@@ -1,7 +1,6 @@
 window._ = require('lodash');
 
 import Vue from 'vue';
-
 window.Vue = Vue;
 
 /**
@@ -14,5 +13,19 @@ window.axios = require('axios');
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 import Form from 'form-backend-validation';
-
 window.Form = Form;
+
+import Toasted from 'vue-toasted';
+Vue.use(Toasted, {
+    keepOnHover: true,
+    theme: 'toasted-primary',
+    containerClass: 'app-toasted',
+    position: 'top-center',
+    duration: 5000,
+});
+
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+library.add(fas);
+Vue.component('icon', FontAwesomeIcon);

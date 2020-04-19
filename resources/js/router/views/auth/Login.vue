@@ -1,13 +1,17 @@
 <template>
-
+    <sign-in-out-wrapper>
+        <login />
+    </sign-in-out-wrapper>
 </template>
 
 <script>
+    import SignInOutWrapper from 'components/auth/SignInOutWrapper';
+    import Login from 'components/auth/Login';
+
     export default {
-        name: "Login"
+        components: {
+            SignInOutWrapper,
+            Login,
+        },
     }
 </script>
-
-<style scoped>
-
-</style>
