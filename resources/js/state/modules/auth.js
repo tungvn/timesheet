@@ -65,7 +65,6 @@ export const actions = {
             .then(() => {
                 commit('CLEAR_LOGIN_COOKIE');
                 commit('SET_ACCESS_TOKEN', false);
-                location.reload();
             });
     },
 
@@ -112,7 +111,7 @@ function setLoggedIn(state, loggedIn) {
     state.loggedIn = loggedIn;
 
     if (!loggedIn) {
-        router.push('/login');
+        router.push('/');
     }
 }
 
