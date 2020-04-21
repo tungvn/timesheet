@@ -56,6 +56,44 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
+     * @return array
+     */
+    public function getFillable()
+    {
+        if (! $this->exists || $this->isAdmin()) {
+            return parent::getFillable();
+        }
+
+        return [
+            'password',
+            'avatar',
+            'description',
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getMeUpdateRules()
+    {
+        if ($this->isAdmin()) {
+            return [
+                'username'    => 'sometimes|string|min:3|alpha_num',
+                'email'       => 'sometimes|email|unique:users',
+                'password'    => 'sometimes|string|min:8|confirmed',
+                'leader_id'   => 'nullable|uuid|exists:users,id',
+                'avatar'      => 'nullable|string',
+                'description' => 'nullable|string',
+            ];
+        }
+
+        return [
+            'avatar'      => 'nullable|string',
+            'description' => 'nullable|string',
+        ];
+    }
+
+    /**
      * This user belongs to a leader
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

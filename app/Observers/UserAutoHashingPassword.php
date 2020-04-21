@@ -18,4 +18,16 @@ class UserAutoHashingPassword
             $user->password = Hash::make($user->password);
         }
     }
+
+    /**
+     * Automatically hash the password in the input data
+     *
+     * @param \App\User $user
+     */
+    public function updating(User $user)
+    {
+        if (isset($user->password)) {
+            $user->password = Hash::make($user->password);
+        }
+    }
 }
