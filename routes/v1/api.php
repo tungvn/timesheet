@@ -21,3 +21,24 @@ Route::group(['namespace' => 'Auth'], function () {
     Route::post('logout', 'LogoutController')->middleware('auth:api')
          ->name('logout');
 });
+
+Route::middleware('auth:api')->group(function () {
+
+    Route::namespace('User')->group(function () {
+
+        Route::patch('user/{user}/restore', 'UserController@restore')
+             ->name('user.restore');
+
+        Route::apiResource('user', 'UserController');
+    });
+
+    Route::namespace('Me')->group(function () {
+
+        Route::get('me', 'MeController@show')->name('me.show');
+
+        Route::patch('me/password', 'ChangePasswordController')
+             ->name('me.change-password');
+
+        Route::patch('me', 'MeController@update')->name('me.update');
+    });
+});
