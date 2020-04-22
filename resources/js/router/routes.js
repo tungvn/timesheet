@@ -29,6 +29,15 @@ const routes = [
             auth: true
         }
     },
+
+    {
+        path: '/me',
+        name: 'me',
+        component: require('./views/me/Index').default,
+        meta: {
+            auth: true
+        }
+    },
 ];
 
 const router = new VueRouter({

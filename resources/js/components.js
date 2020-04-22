@@ -13,3 +13,4 @@ Vue.component(`${prefix}layout`, require('./components/common/layout/Wrapper').d
  * Form
  */
 Vue.component(`${prefix}field`, require('./components/common/form/Field').default);
+Vue.component(`${prefix}form-group`, require('./components/common/form/FormGroup').default);
