@@ -3,7 +3,7 @@
         <div class="card-body register-card-body">
             <form @submit.prevent="onSubmit" class="mb-3">
                 <timesheet-field
-                    :has-error="form.getError('username')"
+                    :has-error="form.hasError('username')"
                     :message="form.getError('username')"
                     has-icon
                     icon-name="user"
@@ -11,7 +11,7 @@
                     <input type="text" class="form-control" placeholder="Username" v-model="form.username"/>
                 </timesheet-field>
                 <timesheet-field
-                    :has-error="form.getError('email')"
+                    :has-error="form.hasError('email')"
                     :message="form.getError('email')"
                     has-icon
                     icon-name="envelope"
@@ -19,7 +19,7 @@
                     <input type="email" class="form-control" placeholder="Email" v-model="form.email"/>
                 </timesheet-field>
                 <timesheet-field
-                    :has-error="form.getError('password')"
+                    :has-error="form.hasError('password')"
                     :message="form.getError('password')"
                     has-icon
                     icon-name="lock"

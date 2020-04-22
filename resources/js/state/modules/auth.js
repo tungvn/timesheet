@@ -50,6 +50,7 @@ export const actions = {
         return form.post(rootState.api.login)
             .then(() => {
                 commit('SET_ACCESS_TOKEN', true);
+                commit('GET_ACCOUNT');
             });
     },
 
