@@ -8,6 +8,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Validation\Rule;
 use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -78,8 +79,18 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         if ($this->isAdmin()) {
             return [
-                'username'    => 'sometimes|string|min:3|alpha_num',
-                'email'       => 'sometimes|email|unique:users',
+                'username'    => [
+                    'sometimes',
+                    'string',
+                    'min:3',
+                    'alpha_num',
+                    Rule::unique('users')->ignore($this->id),
+                ],
+                'email'       => [
+                    'sometimes',
+                    'email',
+                    Rule::unique('users')->ignore($this->id),
+                ],
                 'password'    => 'sometimes|string|min:8|confirmed',
                 'leader_id'   => 'nullable|uuid|exists:users,id',
                 'avatar'      => 'nullable|string',
