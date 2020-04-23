@@ -29,3 +29,5 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 library.add(fas);
 Vue.component('icon', FontAwesomeIcon);
+
+import 'admin-lte';
