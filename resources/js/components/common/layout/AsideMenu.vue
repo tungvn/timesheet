@@ -21,9 +21,15 @@
                         </router-link>
                     </li>
                     <li class="nav-item">
+                        <router-link to="/users" class="nav-link">
+                            <icon icon="users"/>
+                            <span>User Management</span>
+                        </router-link>
+                    </li>
+                    <li class="nav-item">
                         <router-link to="/timesheet" class="nav-link">
                             <icon icon="calendar-alt"/>
-                            <span>Timesheet</span>
+                            <span>Timesheet Management</span>
                         </router-link>
                     </li>
                     <li class="nav-item">
