@@ -9,6 +9,7 @@ const prefix = 'timesheet-';
  */
 Vue.component(`${prefix}layout`, require('./components/common/layout/Wrapper').default);
 Vue.component(`${prefix}table`, require('./components/common/Table').default);
+Vue.component(`${prefix}modal`, require('./components/common/Modal').default);
 
 /**
  * Form
