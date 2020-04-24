@@ -17,6 +17,9 @@ class Timesheet extends Model
     /** @var string */
     const STATUS_APPROVED = 'approved';
 
+    /** @var string */
+    const STATUS_CHANGED = 'changed';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -75,5 +78,21 @@ class Timesheet extends Model
     public function scopeWithLeader(Builder $builder)
     {
         return $builder->whereIn($this->getCreatedByColumn(), auth()->user()->followers->map->id);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isApproved()
+    {
+        return $this->status === self::STATUS_APPROVED;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isChanged()
+    {
+        return $this->status === self::STATUS_CHANGED;
     }
 }

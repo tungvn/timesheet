@@ -52,7 +52,7 @@ trait HasAuthors
             return '';
         }
 
-        return $this->author->name;
+        return $this->author->username;
     }
 
     /**
