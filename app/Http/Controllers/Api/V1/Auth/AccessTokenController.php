@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API\V1\Auth;
+namespace App\Http\Controllers\Api\V1\Auth;
 
 use Laravel\Passport\Http\Controllers\AccessTokenController as PassportAccessTokenController;
 use Psr\Http\Message\ServerRequestInterface;
