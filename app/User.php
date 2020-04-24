@@ -38,6 +38,15 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'role' => self::ROLE_USER,
+    ];
+
+    /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
