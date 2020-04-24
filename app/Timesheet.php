@@ -3,7 +3,9 @@
 namespace App;
 
 use App\Timesheets\Authoring\HasAuthors;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Timesheet extends Model
 {
@@ -25,6 +27,8 @@ class Timesheet extends Model
         'doing', // Array of \App\Timesheets\Task
         'problem',
         'plan',
+        'status',
+        'approved_at',
     ];
 
     /**
@@ -38,10 +42,38 @@ class Timesheet extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     * Get the fillable attributes for the model.
+     *
+     * @return array
+     */
+    public function getFillable()
+    {
+        if ($this->exists) {
+            return parent::getFillable();
+        }
+
+        return [
+            'date',
+            'doing', // Array of \App\Timesheets\Task
+            'problem',
+            'plan',
+        ];
+    }
+
+    /**
+     * @return HasManyThrough
      */
     public function notifiers()
     {
         return $this->hasManyThrough(User::class, TimesheetNotify::class);
+    }
+
+    /**
+     * @param Builder $builder
+     * @return Builder
+     */
+    public function scopeWithLeader(Builder $builder)
+    {
+        return $builder->whereIn($this->getCreatedByColumn(), auth()->user()->followers->map->id);
     }
 }
