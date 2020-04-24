@@ -45,6 +45,8 @@
                         type="button"
                         title="Delete"
                         class="btn btn-sm btn-outline-danger btn-icon-delete"
+                        data-toggle="modal"
+                        data-target="#modal-delete"
                         :style="{ fontSize: '12px' }"
                         @click="confirmDelete(props.rowData)"
                     >
@@ -55,6 +57,19 @@
         </vuetable>
 
         <pagination ref="pagination" @vuetable-pagination:change-page="onChangePage"/>
+
+        <transition name="fade">
+            <timesheet-modal
+                v-if="showDeleteConfirmationModel"
+                id="modal-delete"
+                title="Delete Item?"
+                :show="showDeleteConfirmationModel"
+                @ok="deleteItem"
+                @close="resetDeleteItem"
+            >
+                <p>Are you sure to delete the selected item?</p>
+            </timesheet-modal>
+        </transition>
     </div>
 </template>
 
