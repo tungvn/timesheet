@@ -14,6 +14,41 @@ export const mutations = {
 
 export const actions = {
     /**
+     * Get user by given id
+     * @param {Function} commit
+     * @param rootState
+     * @param {string} id
+     */
+    getUser({commit, rootState}, id) {
+        return request.get(rootState.api.singleUser(id))
+            .then((response) => (response.data.data));
+    },
+
+    /**
+     * Update user by given id
+     * @param {Function} commit
+     * @param rootState
+     * @param {Form} form
+     */
+    createUser({commit, rootState}, form) {
+        return form.post(rootState.api.createUser)
+            .then((response) => (response.data));
+    },
+
+
+    /**
+     * Update user by given id
+     * @param {Function} commit
+     * @param rootState
+     * @param {string} id
+     * @param form
+     */
+    updateUser({commit, rootState}, {id, form}) {
+        return form.patch(rootState.api.singleUser(id))
+            .then((response) => (response.data));
+    },
+
+    /**
      * Delete user by given id
      * @param {Function} commit
      * @param rootState

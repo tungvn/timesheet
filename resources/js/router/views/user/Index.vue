@@ -1,5 +1,10 @@
 <template>
     <timesheet-layout heading="User Management">
+        <template v-slot:header>
+            <div class="d-flex justify-content-end">
+                <router-link to="/user" class="btn btn-primary">Create User</router-link>
+            </div>
+        </template>
         <template v-slot:content>
             <div class="col-12">
                 <timesheet-table

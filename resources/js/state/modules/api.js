@@ -10,6 +10,7 @@ export const state = {
     changePassword: `${baseApi}/me/password`,
 
     listUsers: `${baseApi}/user`,
+    createUser: `${baseApi}/user`,
     singleUser: (userId) => `${baseApi}/user/${userId}`,
     restoreUser: (userId) => `${baseApi}/user/${userId}/restore`,
 };
