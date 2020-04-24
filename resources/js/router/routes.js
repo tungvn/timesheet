@@ -38,6 +38,24 @@ const routes = [
             auth: true
         }
     },
+
+    {
+        path: '/users',
+        name: 'users',
+        component: require('./views/user/Index').default,
+        meta: {
+            auth: true
+        },
+    },
+
+    {
+        path: '/user/:id?',
+        name: 'user',
+        component: require('./views/user/Edit').default,
+        meta: {
+            auth: true
+        },
+    },
 ];
 
 const router = new VueRouter({

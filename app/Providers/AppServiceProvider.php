@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Observers\UserAutoHashingPassword;
+use App\Observers\UserObserver;
 use App\Timesheets\Client;
 use App\User;
 use Illuminate\Support\ServiceProvider;
@@ -29,6 +29,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        User::observe(UserAutoHashingPassword::class);
+        User::observe(UserObserver::class);
     }
 }

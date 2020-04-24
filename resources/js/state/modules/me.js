@@ -29,7 +29,6 @@ export const mutations = {
      * Set the current account statement.
      */
     SET_ACCOUNT(state, account) {
-        console.log('account', account);
         state.account = {
             ...(state.account || {}),
             ...account,

@@ -5,15 +5,16 @@ namespace App\Observers;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 
-class UserAutoHashingPassword
+class UserObserver
 {
     /**
      * Automatically hash the password in the input data
      *
-     * @param \App\User $user
+     * @param User $user
      */
     public function creating(User $user)
     {
+        $user->role = User::ROLE_USER;
         if (isset($user->password)) {
             $user->password = Hash::make($user->password);
         }
@@ -22,7 +23,7 @@ class UserAutoHashingPassword
     /**
      * Automatically hash the password in the input data
      *
-     * @param \App\User $user
+     * @param User $user
      */
     public function updating(User $user)
     {

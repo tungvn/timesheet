@@ -29,3 +29,7 @@ mix.webpackConfig({
         },
     },
 });
+
+mix.autoload({
+    'jquery': ['$', 'window.jQuery', 'jQuery'],
+});
