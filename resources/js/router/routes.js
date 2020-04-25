@@ -94,7 +94,7 @@ const routes = [
     {
         path: '/timesheet/:id?',
         name: 'singleTimesheet',
-        component: require('./views/timesheet/Edit').default,
+        component: require('./views/timesheet/View').default,
         meta: {
             auth: true
         },

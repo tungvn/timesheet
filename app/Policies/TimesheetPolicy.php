@@ -77,6 +77,7 @@ class TimesheetPolicy
      */
     private function isTimesheetOfFollowers(User $user, Timesheet $timesheet)
     {
-        return in_array($user->id, $timesheet->notifiers->map->id);
+        $ids = $timesheet->notifiers->map->id;
+        return $ids->isNotEmpty() && $ids->contains($user->id);
     }
 }

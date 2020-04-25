@@ -123,6 +123,7 @@
                     'doing',
                     'problem',
                     'plan',
+                    'status',
                 ],
                 form: new Form({
                     date: null,

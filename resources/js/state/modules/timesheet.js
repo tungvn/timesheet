@@ -14,21 +14,9 @@ export const actions = {
      * @param {string} id
      */
     getTimesheet({commit, rootState}, id) {
-        return request.get(rootState.api.timesheet)
+        return request.get(rootState.api.singleTimesheet(id))
             .then((response) => (response.data.data));
     },
-
-    /**
-     * Update timesheet by given id
-     * @param {Function} commit
-     * @param rootState
-     * @param {Form} form
-     */
-    createTimesheet({commit, rootState}, form) {
-        return form.post(rootState.api.timesheet)
-            .then((response) => (response.data));
-    },
-
 
     /**
      * Update timesheet by given id
@@ -37,19 +25,9 @@ export const actions = {
      * @param {string} id
      * @param form
      */
-    updateTimesheet({commit, rootState}, {id, form}) {
-        return form.patch(rootState.api.singleTimesheet(id))
-            .then((response) => (response.data));
-    },
-
-    /**
-     * Delete timesheet by given id
-     * @param {Function} commit
-     * @param rootState
-     * @param {string} id
-     */
-    deleteTimesheet({commit, rootState}, id) {
-        return request.delete(rootState.api.singleTimesheet(id));
+    approveTimesheet({commit, rootState}, id) {
+        return request.patch(rootState.api.approveTimesheet(id))
+            .then((response) => (response.data.data));
     },
 };
 
