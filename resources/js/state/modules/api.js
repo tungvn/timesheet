@@ -12,5 +12,4 @@ export const state = {
     listUsers: `${baseApi}/user`,
     createUser: `${baseApi}/user`,
     singleUser: (userId) => `${baseApi}/user/${userId}`,
-    restoreUser: (userId) => `${baseApi}/user/${userId}/restore`,
 };
