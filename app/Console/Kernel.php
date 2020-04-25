@@ -2,6 +2,9 @@
 
 namespace App\Console;
 
+use App\Jobs\NotifyUserLateSubmitTimesheet;
+use App\Jobs\NotifyUserSubmitTimesheet;
+use App\Setting;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -24,8 +27,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $startStartTime = Setting::where('key', config('timesheet.configs.start_time'))->first()->value;
+        $startSubmitTime = Setting::where('key', config('timesheet.configs.submit_time'))->first()->value;
+
+        $schedule->job(new NotifyUserSubmitTimesheet())->daily()->at($startStartTime);
+        $schedule->job(new NotifyUserLateSubmitTimesheet())->daily()->at($startSubmitTime);
     }
 
     /**
