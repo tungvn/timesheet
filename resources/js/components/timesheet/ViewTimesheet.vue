@@ -17,9 +17,13 @@
                 <h4 class="card-title">Doing Tasks</h4>
             </div>
             <div class="card-body">
-                <ul class="list-group">
-                    <li :key="key" class="list-group-item" v-for="(doing, key) in timesheet.doing">
-                        {{ doing.task_id }}
+                <ul>
+                    <li :key="key" v-for="(doing, key) in timesheet.doing">
+                        <p>
+                            <b>[{{ doing.task_id }}]</b>
+                            <span class="badge-btn">{{ doing.spend_time }} hour(s)</span>
+                        </p>
+                        <p class="text-reset">{{ doing.content }}</p>
                     </li>
                 </ul>
             </div>
