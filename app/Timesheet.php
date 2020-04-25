@@ -41,8 +41,17 @@ class Timesheet extends Model
      * @var array
      */
     protected $casts = [
-        'date'  => 'date',
+        'date'  => 'date:Y-m-d',
         'doing' => 'array',
+    ];
+
+    /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = [
+        'author',
     ];
 
     /**
