@@ -5,7 +5,8 @@ namespace App;
 use App\Timesheets\Authoring\HasAuthors;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Timesheet extends Model
 {
@@ -64,11 +65,19 @@ class Timesheet extends Model
     }
 
     /**
-     * @return HasManyThrough
+     * @return BelongsToMany
      */
     public function notifiers()
     {
-        return $this->hasManyThrough(User::class, TimesheetNotify::class);
+        return $this->belongsToMany(User::class, 'timesheet_notifies');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function notifies()
+    {
+        return $this->hasMany(TimesheetNotify::class);
     }
 
     /**

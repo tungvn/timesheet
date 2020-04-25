@@ -26,7 +26,7 @@ class TimesheetObserver
     public function created(Timesheet $timesheet)
     {
         if (!is_null($leaderId = $timesheet->author->leader_id)) {
-            $timesheet->notifiers()->create([
+            $timesheet->notifies()->create([
                 'user_id' => $leaderId,
             ]);
 

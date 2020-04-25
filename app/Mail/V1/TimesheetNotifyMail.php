@@ -13,7 +13,7 @@ class TimesheetNotifyMail extends Mailable implements ShouldQueue
     use Queueable, SerializesModels;
 
     /** @var Timesheet */
-    private $timesheet;
+    public $timesheet;
 
     /**
      * Create a new message instance.
@@ -35,6 +35,7 @@ class TimesheetNotifyMail extends Mailable implements ShouldQueue
         $this->subject(($this->timesheet->isChanged() ?
                 'Timesheet has modified by ' : 'Timesheet has added by '
             ) . $this->timesheet->getAuthorNameAttribute())
+            ->from('no-reply@timesheet.test')
             ->to($this->timesheet->notifiers->map->email);
 
         return $this->markdown('emails.timesheet.notify');
