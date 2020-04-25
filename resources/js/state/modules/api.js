@@ -17,4 +17,7 @@ export const state = {
     timesheet: `${baseApi}/timesheet`,
     singleTimesheet: (timesheetId) => `${baseApi}/timesheet/${timesheetId}`,
     approveTimesheet: (timesheetId) => `${baseApi}/timesheet/${timesheetId}/approve`,
+
+    setting: `${baseApi}/setting`,
+    singleSetting: (settingId) => `${baseApi}/setting/${settingId}`,
 };
