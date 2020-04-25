@@ -1,61 +1,55 @@
 import request from 'common/request';
 
-export const state = {
+export const state = {};
 
-};
+export const getters = {};
 
-export const getters = {
-
-};
-
-export const mutations = {
-
-};
+export const mutations = {};
 
 export const actions = {
     /**
-     * Get user by given id
+     * Get timesheet by given id
      * @param {Function} commit
      * @param rootState
      * @param {string} id
      */
-    getUser({commit, rootState}, id) {
-        return request.get(rootState.api.user)
+    getTimesheet({commit, rootState}, id) {
+        return request.get(rootState.api.timesheet)
             .then((response) => (response.data.data));
     },
 
     /**
-     * Update user by given id
+     * Update timesheet by given id
      * @param {Function} commit
      * @param rootState
      * @param {Form} form
      */
-    createUser({commit, rootState}, form) {
-        return form.post(rootState.api.user)
+    createTimesheet({commit, rootState}, form) {
+        return form.post(rootState.api.timesheet)
             .then((response) => (response.data));
     },
 
 
     /**
-     * Update user by given id
+     * Update timesheet by given id
      * @param {Function} commit
      * @param rootState
      * @param {string} id
      * @param form
      */
-    updateUser({commit, rootState}, {id, form}) {
-        return form.patch(rootState.api.singleUser(id))
+    updateTimesheet({commit, rootState}, {id, form}) {
+        return form.patch(rootState.api.singleTimesheet(id))
             .then((response) => (response.data));
     },
 
     /**
-     * Delete user by given id
+     * Delete timesheet by given id
      * @param {Function} commit
      * @param rootState
      * @param {string} id
      */
-    deleteUser({commit, rootState}, id) {
-        return request.delete(rootState.api.singleUser(id));
+    deleteTimesheet({commit, rootState}, id) {
+        return request.delete(rootState.api.singleTimesheet(id));
     },
 };
 

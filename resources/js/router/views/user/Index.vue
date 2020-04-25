@@ -9,7 +9,7 @@
             <div class="col-12">
                 <timesheet-table
                     :fields="fields"
-                    :api-url="api.listUsers"
+                    :api-url="api.user"
                     :delete-func="deleteItem"
                 />
             </div>
