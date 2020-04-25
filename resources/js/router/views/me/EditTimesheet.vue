@@ -1,17 +1,13 @@
 <template>
-    <timesheet-layout :heading="isCreating ? 'Create An User' : 'Update An User'">
-        <template v-slot:content>
-            <user-form/>
-        </template>
-    </timesheet-layout>
+    <timesheet-form/>
 </template>
 
 <script>
-    import UserForm from 'components/user/UserForm';
+    import TimesheetForm from 'components/timesheet/TimesheetForm';
 
     export default {
         components: {
-            UserForm,
+            TimesheetForm,
         },
 
         mounted() {

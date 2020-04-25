@@ -85,7 +85,7 @@ export const actions = {
      * @param {string} id
      */
     getMyTimesheet({commit, rootState}, id) {
-        return request.get(rootState.api.myTimesheet)
+        return request.get(rootState.api.singleMyTimesheet(id))
             .then((response) => (response.data.data));
     },
 
@@ -99,7 +99,6 @@ export const actions = {
         return form.post(rootState.api.myTimesheet)
             .then((response) => (response.data));
     },
-
 
     /**
      * Update timesheet by given id

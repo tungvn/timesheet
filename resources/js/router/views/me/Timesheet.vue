@@ -1,8 +1,15 @@
 <template>
     <div class="col-12">
         <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">My Timesheet</h3>
+            <div class="card-header d-flex">
+                <div class="row w-100">
+                    <div class="col-md-6 d-flex align-items-center">
+                        <h3 class="card-title">My Timesheet</h3>
+                    </div>
+                    <div class="col-md-6 d-flex justify-content-end">
+                        <router-link class="btn btn-primary" to="/me/timesheet">Create Timesheet</router-link>
+                    </div>
+                </div>
             </div>
             <div class="card-body p-0">
                 <timesheet-table
@@ -56,7 +63,7 @@
 
         methods: {
             deleteItem(id) {
-                return this.$store.dispatch('deleteTimesheet', id);
+                return this.$store.dispatch('deleteMyTimesheet', id);
             }
         }
     }
