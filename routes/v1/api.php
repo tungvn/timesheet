@@ -52,4 +52,12 @@ Route::middleware('auth:api')->group(function () {
             'destroy',
         ]);
     });
+
+    Route::namespace('Setting')->group(function () {
+
+        Route::apiResource('setting', 'SettingController')->only([
+            'index',
+            'update',
+        ]);
+    });
 });
