@@ -3,6 +3,7 @@
 namespace App\Mail\V1;
 
 use App\Timesheet;
+use App\TimesheetNotify;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;

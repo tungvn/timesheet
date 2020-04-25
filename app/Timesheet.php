@@ -69,7 +69,7 @@ class Timesheet extends Model
      */
     public function notifiers()
     {
-        return $this->belongsToMany(User::class, 'timesheet_notifies');
+        return $this->belongsToMany(User::class, 'timesheet_notifies')->using(TimesheetNotify::class);
     }
 
     /**
