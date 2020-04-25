@@ -77,6 +77,50 @@ export const actions = {
     async changePassword({commit, rootState}, form) {
         return form.patch(api.changePassword);
     },
+
+    /**
+     * Get timesheet by given id
+     * @param {Function} commit
+     * @param rootState
+     * @param {string} id
+     */
+    getMyTimesheet({commit, rootState}, id) {
+        return request.get(rootState.api.singleMyTimesheet(id))
+            .then((response) => (response.data.data));
+    },
+
+    /**
+     * Update timesheet by given id
+     * @param {Function} commit
+     * @param rootState
+     * @param {Form} form
+     */
+    createMyTimesheet({commit, rootState}, form) {
+        return form.post(rootState.api.myTimesheet)
+            .then((response) => (response.data));
+    },
+
+    /**
+     * Update timesheet by given id
+     * @param {Function} commit
+     * @param rootState
+     * @param {string} id
+     * @param form
+     */
+    updateMyTimesheet({commit, rootState}, {id, form}) {
+        return form.patch(rootState.api.singleMyTimesheet(id))
+            .then((response) => (response.data));
+    },
+
+    /**
+     * Delete timesheet by given id
+     * @param {Function} commit
+     * @param rootState
+     * @param {string} id
+     */
+    deleteMyTimesheet({commit, rootState}, id) {
+        return request.delete(rootState.api.singleMyTimesheet(id));
+    },
 };
 
 /**

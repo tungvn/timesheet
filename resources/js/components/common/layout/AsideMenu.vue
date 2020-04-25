@@ -5,10 +5,14 @@
         </router-link>
 
         <div class="sidebar">
-            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex flex-wrap">
                 <router-link to="/me" class="d-block nav-link">
                     <icon icon="user"/>
                     <span>Account</span>
+                </router-link>
+                <router-link class="d-block nav-link" to="/me/timesheets">
+                    <icon icon="calendar-alt"/>
+                    <span>My Timesheets</span>
                 </router-link>
             </div>
 
@@ -27,7 +31,7 @@
                         </router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link to="/timesheet" class="nav-link">
+                        <router-link class="nav-link" to="/timesheets">
                             <icon icon="calendar-alt"/>
                             <span>Timesheet Management</span>
                         </router-link>

@@ -20,7 +20,7 @@ export const actions = {
      * @param {string} id
      */
     getUser({commit, rootState}, id) {
-        return request.get(rootState.api.singleUser(id))
+        return request.get(rootState.api.user)
             .then((response) => (response.data.data));
     },
 
@@ -31,7 +31,7 @@ export const actions = {
      * @param {Form} form
      */
     createUser({commit, rootState}, form) {
-        return form.post(rootState.api.createUser)
+        return form.post(rootState.api.user)
             .then((response) => (response.data));
     },
 

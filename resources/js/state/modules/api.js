@@ -8,8 +8,13 @@ export const state = {
 
     me: `${baseApi}/me`,
     changePassword: `${baseApi}/me/password`,
+    myTimesheet: `${baseApi}/me/timesheet`,
+    singleMyTimesheet: (timesheetId) => `${baseApi}/me/timesheet/${timesheetId}`,
 
-    listUsers: `${baseApi}/user`,
-    createUser: `${baseApi}/user`,
+    user: `${baseApi}/user`,
     singleUser: (userId) => `${baseApi}/user/${userId}`,
+
+    timesheet: `${baseApi}/timesheet`,
+    singleTimesheet: (timesheetId) => `${baseApi}/timesheet/${timesheetId}`,
+    approveTimesheet: (timesheetId) => `${baseApi}/timesheet/${timesheetId}/approve`,
 };

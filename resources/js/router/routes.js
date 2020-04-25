@@ -32,11 +32,36 @@ const routes = [
 
     {
         path: '/me',
-        name: 'me',
         component: require('./views/me/Index').default,
         meta: {
             auth: true
-        }
+        },
+        children: [
+            {
+                path: '',
+                name: 'me',
+                component: require('./views/me/Me').default,
+                meta: {
+                    auth: true
+                },
+            },
+            {
+                path: 'timesheets',
+                name: 'myTimesheet',
+                component: require('./views/me/Timesheet').default,
+                meta: {
+                    auth: true
+                },
+            },
+            {
+                path: 'timesheet/:id?',
+                name: 'mySingleTimesheet',
+                component: require('./views/me/EditTimesheet').default,
+                meta: {
+                    auth: true
+                },
+            },
+        ]
     },
 
     {
@@ -52,6 +77,24 @@ const routes = [
         path: '/user/:id?',
         name: 'user',
         component: require('./views/user/Edit').default,
+        meta: {
+            auth: true
+        },
+    },
+
+    {
+        path: '/timesheets',
+        name: 'timesheets',
+        component: require('./views/timesheet/Index').default,
+        meta: {
+            auth: true
+        },
+    },
+
+    {
+        path: '/timesheet/:id?',
+        name: 'singleTimesheet',
+        component: require('./views/timesheet/View').default,
         meta: {
             auth: true
         },

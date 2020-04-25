@@ -41,12 +41,12 @@ class TimesheetObserver
      */
     public function updating(Timesheet $timesheet)
     {
-        if ($timesheet->isDirty('status') && $timesheet->status === Timesheet::STATUS_APPROVED) {
+        if ($timesheet->isDirty('status') && $timesheet->isApproved()) {
             $timesheet->approved_at = now();
         }
 
-        if ($timesheet->isDirty() && $timesheet->isApproved()) {
-            $timesheet->status = Timesheet::CHANGED;
+        if ($timesheet->isDirty() && $timesheet->getOriginal('status') === Timesheet::STATUS_APPROVED) {
+            $timesheet->status = Timesheet::STATUS_CHANGED;
         }
     }
 
