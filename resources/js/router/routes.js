@@ -99,6 +99,15 @@ const routes = [
             auth: true
         },
     },
+
+    {
+        path: '/settings',
+        name: 'settings',
+        component: require('./views/setting/Index').default,
+        meta: {
+            auth: true
+        },
+    },
 ];
 
 const router = new VueRouter({

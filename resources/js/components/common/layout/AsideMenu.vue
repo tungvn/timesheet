@@ -36,6 +36,12 @@
                             <span>Timesheet Management</span>
                         </router-link>
                     </li>
+                    <li class="nav-item" v-if="isAdmin">
+                        <router-link class="nav-link" to="/settings">
+                            <icon icon="cogs"/>
+                            <span>Settings</span>
+                        </router-link>
+                    </li>
                     <li class="nav-item">
                         <button
                             type="button"
@@ -54,7 +60,20 @@
 </template>
 
 <script>
+    import {mapGetters} from "vuex";
+    import {ROLE_ADMIN} from "common/constant";
+
     export default {
+        computed: {
+            ...mapGetters([
+                'account',
+            ]),
+
+            isAdmin() {
+                return (this.account && this.account.role === ROLE_ADMIN) || false;
+            },
+        },
+
         methods: {
             logout() {
                 this.$store.dispatch('logout')
