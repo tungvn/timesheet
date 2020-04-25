@@ -1,7 +1,9 @@
 <template>
-    <div>
-        <user-form/>
-        <change-password-form/>
+    <div class="col-12">
+        <div class="row">
+            <user-form/>
+            <change-password-form/>
+        </div>
     </div>
 </template>
 

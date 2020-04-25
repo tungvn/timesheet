@@ -46,6 +46,10 @@
                         },
                     },
                     {
+                        name: 'created_at',
+                        title: 'Created At',
+                    },
+                    {
                         name: 'actions',
                         title: '',
                         titleClass: 'text-right',
