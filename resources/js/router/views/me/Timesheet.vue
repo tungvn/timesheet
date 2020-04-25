@@ -25,6 +25,7 @@
 
 <script>
     import {mapState} from "vuex";
+    import {STATUS_APPROVED, STATUS_CHANGED} from "../../../common/constant";
 
     export default {
         computed: {
@@ -40,10 +41,13 @@
                         name: 'date',
                     },
                     {
-                        name: 'approved_at',
-                        title: 'Approved',
+                        name: 'status',
                         formatter: (value) => {
-                            return value ? 'Approved' : '';
+                            switch (value) {
+                                case STATUS_APPROVED: return 'Approved';
+                                case STATUS_CHANGED: return 'Changed';
+                                default: return '';
+                            }
                         },
                     },
                     {

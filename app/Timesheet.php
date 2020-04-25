@@ -113,4 +113,12 @@ class Timesheet extends Model
     {
         return $this->status === self::STATUS_CHANGED;
     }
+
+    /**
+     * @return bool
+     */
+    public function isCreated()
+    {
+        return $this->status === self::STATUS_CREATED;
+    }
 }
