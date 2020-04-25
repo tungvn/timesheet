@@ -24,7 +24,7 @@
                             <span>Dashboard</span>
                         </router-link>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" v-if="isAdmin">
                         <router-link to="/users" class="nav-link">
                             <icon icon="users"/>
                             <span>User Management</span>
