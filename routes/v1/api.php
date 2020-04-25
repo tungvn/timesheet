@@ -9,7 +9,7 @@ Route::group(['namespace' => 'Auth'], function () {
 
     // Use for refresh token or authenticate by client credentials
     Route::post('oauth/token', 'AccessTokenController@issueToken')
-         ->name('oauth.token');
+        ->name('oauth.token');
 
     // Use for login by password credentials
     Route::post('login', 'AccessTokenController@issueToken')->name('login');
@@ -19,26 +19,37 @@ Route::group(['namespace' => 'Auth'], function () {
 
     // Logs the user out.
     Route::post('logout', 'LogoutController')->middleware('auth:api')
-         ->name('logout');
+        ->name('logout');
 });
 
 Route::middleware('auth:api')->group(function () {
 
-    Route::namespace('User')->group(function () {
-
-        Route::patch('user/{user}/restore', 'UserController@restore')
-             ->name('user.restore');
-
-        Route::apiResource('user', 'UserController');
-    });
+    Route::apiResource('user', 'User\UserController');
 
     Route::namespace('Me')->group(function () {
 
+        Route::prefix('me')->name('me.')->group(function () {
+
+            Route::apiResource('timesheet', 'Timesheet\UserTimesheetController');
+
+            Route::patch('password', 'ChangePasswordController')
+                ->name('change-password');
+        });
+
         Route::get('me', 'MeController@show')->name('me.show');
 
-        Route::patch('me/password', 'ChangePasswordController')
-             ->name('me.change-password');
-
         Route::patch('me', 'MeController@update')->name('me.update');
+    });
+
+    Route::namespace('Timesheet')->group(function () {
+
+        Route::patch('timesheet/{timesheet}/approve', 'ApproveController')
+            ->name('timesheet.approve');
+
+        Route::apiResource('timesheet', 'TimesheetController')->only([
+            'index',
+            'show',
+            'destroy',
+        ]);
     });
 });

@@ -5,6 +5,8 @@ namespace App;
 use App\Timesheets\Authoring\HasAuthors;
 use App\Timesheets\Traits\HasUuid;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -70,7 +72,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function getFillable()
     {
-        if (! $this->exists || $this->isAdmin()) {
+        if (!$this->exists || $this->isAdmin()) {
             return parent::getFillable();
         }
 
@@ -116,17 +118,28 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * This user belongs to a leader
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function leader()
     {
         return $this->belongsTo(self::class);
     }
 
+
+    /**
+     * This user has many followers
+     *
+     * @return HasMany
+     */
+    public function followers()
+    {
+        return $this->hasMany(self::class, 'leader_id');
+    }
+
     /**
      * This user has many timesheets
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function timesheets()
     {
@@ -143,7 +156,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * @param string $username
-     * @return \App\User
+     * @return User
      */
     public function findForPassport(string $username)
     {

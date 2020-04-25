@@ -8,24 +8,20 @@ use App\Http\Requests\Api\V1\User\UpdateRequest;
 use App\Http\Resources\V1\User as UserResource;
 use App\Http\Resources\V1\UserCollection;
 use App\Http\Responses\V1\DeleteResponse;
-use App\Http\Responses\V1\SuccessfulMessageResponse;
 use App\User;
-use Illuminate\Http\Request;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \App\Http\Resources\V1\UserCollection
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @return UserCollection
+     * @throws AuthorizationException
      */
-    public function index(Request $request)
+    public function index()
     {
         $this->authorize('index', User::class);
-
-        $page = max(1, intval($request->input('page', 1)));
 
         return new UserCollection(User::query()->paginate(10));
     }
@@ -33,8 +29,8 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\Api\V1\User\StoreRequest $request
-     * @return \App\Http\Resources\V1\User
+     * @param StoreRequest $request
+     * @return UserResource
      */
     public function store(StoreRequest $request)
     {
@@ -44,9 +40,9 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\User $user
-     * @return \App\Http\Resources\V1\User
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @param User $user
+     * @return UserResource
+     * @throws AuthorizationException
      */
     public function show(User $user)
     {
@@ -58,9 +54,9 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\Api\V1\User\UpdateRequest $request
-     * @param \App\User                                    $user
-     * @return \App\Http\Resources\V1\User
+     * @param UpdateRequest $request
+     * @param User $user
+     * @return UserResource
      */
     public function update(UpdateRequest $request, User $user)
     {
@@ -70,9 +66,9 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\User $user
-     * @return \App\Http\Responses\V1\DeleteResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @param User $user
+     * @return DeleteResponse
+     * @throws AuthorizationException
      * @throws \Exception
      */
     public function destroy(User $user)
@@ -82,22 +78,5 @@ class UserController extends Controller
         $user->delete();
 
         return new DeleteResponse(__('messages.users.deleted'));
-    }
-
-    /**
-     * Restore the specified resource from storage.
-     *
-     * @param \App\User $user
-     * @return \App\Http\Responses\V1\SuccessfulMessageResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     * @throws \Exception
-     */
-    public function restore(User $user)
-    {
-        $this->authorize('restore', $user);
-
-        $user->restore();
-
-        return new SuccessfulMessageResponse(__('messages.users.restored'));
     }
 }
