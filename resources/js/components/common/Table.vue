@@ -1,25 +1,25 @@
 <template>
     <div class="table-responsive w-full">
-        <vuetable ref="vuetable"
-                  :api-mode="true"
-                  :api-url="apiUrl"
-                  :http-fetch="httpFetch"
-                  :fields="fields"
-                  :css="{
-							tableClass: 'table table-hover',
-							loadingClass: 'loading',
-							ascendingIcon: 'fas fa-caret-up',
-							descendingIcon: 'fas fa-caret-down',
-							detailRowClass: 'vuetable-detail-row',
-							sortHandleIcon: 'grey sidebar icon',
-							sortableIcon: 'fas fa-sort',
-					  }"
-                  pagination-path="meta"
-                  :no-data-template="isLoading ? 'Loading...' : 'No items found'"
-                  @vuetable:pagination-data="onPaginationData"
-                  @vuetable:loading="setLoading(true)"
-                  @vuetable:loaded="setLoading(false)"
-
+        <vuetable
+            :api-mode="true"
+            :api-url="apiUrl"
+            :css="{
+                tableClass: 'table table-hover',
+                loadingClass: 'loading',
+                ascendingIcon: 'fas fa-caret-up',
+                descendingIcon: 'fas fa-caret-down',
+                detailRowClass: 'vuetable-detail-row',
+                sortHandleIcon: 'grey sidebar icon',
+                sortableIcon: 'fas fa-sort',
+            }"
+            :fields="fields"
+            :http-fetch="httpFetch"
+            :no-data-template="isLoading ? 'Loading...' : 'No items found'"
+            @vuetable:loaded="setLoading(false)"
+            @vuetable:loading="setLoading(true)"
+            @vuetable:pagination-data="onPaginationData"
+            pagination-path="meta"
+            ref="vuetable"
         >
             <div slot="admin" slot-scope="props">
                 <span v-if="isAdmin(props.rowData)">
@@ -37,7 +37,7 @@
                         class="mr-1 btn btn-sm btn-outline-success"
                         title="Edit"
                         :style="{ fontSize: '12px' }"
-                        :to="`/user/${props.rowData.id}`"
+                        :to="linkTo(props.rowData.id)"
                     >
                         <icon icon="edit"/>
                     </router-link>
@@ -96,13 +96,21 @@
                 required: true
             },
 
+            linkTo: {
+                type: Function,
+                default() {
+                    return (id) => {
+                    };
+                },
+            },
+
             deleteFunc: {
                 type: Function,
                 default() {
                     return (id) => {
                     };
                 },
-            }
+            },
         },
 
         data() {
