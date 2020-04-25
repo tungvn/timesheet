@@ -23,11 +23,11 @@ class CreateSettingsSeeder extends Seeder
     {
         return collect([
             [
-                'key'   => 'TIMESHEET_START_TIME',
+                'key'   => config('timesheet.configs.start_time'),
                 'value' => config('timesheet.defaults.start_time', '17:00'),
             ],
             [
-                'key'   => 'TIMESHEET_SUBMIT_TIME',
+                'key'   => config('timesheet.configs.submit_time'),
                 'value' => config('timesheet.defaults.submit_time', '19:00'),
             ],
         ]);
