@@ -1,10 +1,5 @@
 <template>
     <timesheet-layout heading="Timesheet Management">
-        <template v-slot:header>
-            <div class="d-flex justify-content-end">
-                <router-link class="btn btn-primary" to="/timesheet">Create Timesheet</router-link>
-            </div>
-        </template>
         <template v-slot:content>
             <div class="col-12">
                 <timesheet-table
