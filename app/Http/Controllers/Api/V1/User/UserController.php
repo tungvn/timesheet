@@ -10,6 +10,7 @@ use App\Http\Resources\V1\UserCollection;
 use App\Http\Responses\V1\DeleteResponse;
 use App\User;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Query\JoinClause;
 
 class UserController extends Controller
 {
@@ -23,7 +24,13 @@ class UserController extends Controller
     {
         $this->authorize('index', User::class);
 
-        return new UserCollection(User::query()->paginate(10));
+        return new UserCollection(User::query()
+            ->leftJoin('timesheet_statistics', function (JoinClause $join) {
+                $join->on('users.id', '=', 'timesheet_statistics.user_id')
+                    ->where('month', now()->format('Y-m'));
+            })
+            ->paginate(10)
+        );
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\CreateTimesheetStatisticNextMonth;
 use App\Jobs\NotifyUserLateSubmitTimesheet;
 use App\Jobs\NotifyUserSubmitTimesheet;
 use App\Setting;
@@ -32,6 +33,10 @@ class Kernel extends ConsoleKernel
 
         $schedule->job(new NotifyUserSubmitTimesheet())->daily()->at($startStartTime);
         $schedule->job(new NotifyUserLateSubmitTimesheet())->daily()->at($startSubmitTime);
+
+        $schedule->job(new CreateTimesheetStatisticNextMonth())->when(function () {
+            return now()->endOfMonth()->isToday();
+        });
     }
 
     /**

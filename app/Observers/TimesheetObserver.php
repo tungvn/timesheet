@@ -2,9 +2,11 @@
 
 namespace App\Observers;
 
+use App\Jobs\UpdateTimesheetStatistic;
 use App\Mail\V1\TimesheetNotifyMail;
 use App\Timesheet;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Queue;
 
 class TimesheetObserver
 {
@@ -32,6 +34,8 @@ class TimesheetObserver
 
             Mail::queue(new TimesheetNotifyMail($timesheet));
         }
+
+        Queue::push(new UpdateTimesheetStatistic($timesheet));
     }
 
     /**

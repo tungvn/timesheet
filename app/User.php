@@ -147,6 +147,16 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * This user has many timesheet statistics
+     *
+     * @return HasMany
+     */
+    public function statistic()
+    {
+        return $this->hasMany(TimesheetStatistic::class);
+    }
+
+    /**
      * @return bool
      */
     public function isAdmin()
