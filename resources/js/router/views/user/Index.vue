@@ -41,6 +41,20 @@
                         name: 'description',
                     },
                     {
+                        name: 'submit_times',
+                        title: 'Submit Times',
+                        formatter: (value) => {
+                            return value || 0;
+                        },
+                    },
+                    {
+                        name: 'late_submit_times',
+                        title: 'Late',
+                        formatter: (value) => {
+                            return value || 0;
+                        },
+                    },
+                    {
                         name: 'actions',
                         title: '',
                         titleClass: 'text-right',

@@ -59,7 +59,7 @@
                         :has-error="form.hasError('problem')"
                         :message="form.getError('problem')"
                     >
-                        <label for="problem">Description</label>
+                        <label for="problem">Problem</label>
                         <textarea class="form-control" id="problem" name="problem" rows="3"
                                   v-model="form.problem"/>
                     </timesheet-form-group>
