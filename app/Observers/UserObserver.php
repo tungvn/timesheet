@@ -21,6 +21,18 @@ class UserObserver
     }
 
     /**
+     * Trigger user created
+     *
+     * @param User $user
+     */
+    public function created(User $user)
+    {
+        $user->statistic()->create([
+            'month' => now()->format('Y-m'),
+        ]);
+    }
+
+    /**
      * Automatically hash the password in the input data
      *
      * @param User $user
