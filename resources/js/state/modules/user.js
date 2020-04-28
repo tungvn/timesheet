@@ -20,7 +20,7 @@ export const actions = {
      * @param {string} id
      */
     getUser({commit, rootState}, id) {
-        return request.get(rootState.api.user)
+        return request.get(rootState.api.singleUser(id))
             .then((response) => (response.data.data));
     },
 

@@ -8,7 +8,7 @@
         @input="emitParent"
     >
         <template slot="no-options">
-            {{ noOptionsPlaceholder }}
+            {{ !keySearch ? noOptionsPlaceholder : 'No items found' }}
         </template>
         <template slot="selected-option" slot-scope="option">
             {{ option.label }}
@@ -48,12 +48,14 @@
         data() {
             return {
                 options: [],
+                keySearch: null,
             };
         },
 
         methods: {
             onSearch(search, loading) {
                 loading(true);
+                this.keySearch = search;
                 this.search(loading, search, this);
             },
 
@@ -72,6 +74,7 @@
 
             emitParent(data) {
                 this.$emit('input', data || null);
+                this.keySearch = null;
             }
         },
     }

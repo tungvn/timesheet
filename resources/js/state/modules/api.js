@@ -13,6 +13,7 @@ export const state = {
 
     user: `${baseApi}/user`,
     singleUser: (userId) => `${baseApi}/user/${userId}`,
+    getUserSelection: `${baseApi}/user/selection`,
 
     timesheet: `${baseApi}/timesheet`,
     singleTimesheet: (timesheetId) => `${baseApi}/timesheet/${timesheetId}`,

@@ -28,6 +28,20 @@
                         <textarea class="form-control" rows="3" id="description" name="description" v-model="form.description"/>
                     </timesheet-form-group>
                     <timesheet-form-group
+                        :has-error="form.hasError('leader_id')"
+                        :message="form.getError('leader_id')"
+                    >
+                        <label>Leader</label>
+                        <timesheet-ajax-select
+                            id="leader_id"
+                            name="leader_id"
+                            v-model="leader"
+                            :api="api.getUserSelection"
+                            :params="extendParams"
+                            :disabled="!isAdmin"
+                        />
+                    </timesheet-form-group>
+                    <timesheet-form-group
                         :has-error="form.hasError('avatar')"
                         :message="form.getError('avatar')"
                     >
@@ -52,19 +66,27 @@
 </template>
 
 <script>
-    import {mapGetters} from "vuex";
+    import {mapGetters, mapState} from "vuex";
     import {ROLE_ADMIN} from "common/constant";
     import request from "common/request";
 
     export default {
         mounted() {
             if (this.account && this.account.id) {
-                this.form.setInitialValues(this.account);
+                this.form.setInitialValues(_.pick(this.account, this.whitelist));
                 this.form.populate(this.account);
+                this.leader = this.account.leader ? {
+                    label: this.account.leader.username,
+                    value: this.account.leader.id,
+                } : null;
             }
         },
 
         computed: {
+            ...mapState({
+                api: ({api}) => api,
+            }),
+
             ...mapGetters([
                 'account',
             ]),
@@ -72,20 +94,42 @@
             isAdmin() {
                 return (this.account && this.account.role === ROLE_ADMIN) || false;
             },
+
+            extendParams() {
+                return {
+                    excluded: (this.account && this.account.id) || null,
+                };
+            },
+
+            leader(newValue) {
+                this.form.leader_id = (newValue && newValue.value) || null;
+            },
         },
 
         watch: {
             account(newValue, oldValue) {
                 if (!oldValue && newValue) {
-                    this.form.setInitialValues(newValue);
+                    this.form.setInitialValues(_.pick(newValue, this.whitelist));
                 }
 
                 this.form.populate(newValue);
+                this.leader = newValue.leader ? {
+                    label: newValue.leader.username,
+                    value: newValue.leader.id,
+                } : null;
             }
         },
 
         data() {
             return {
+                whitelist: [
+                    'username',
+                    'email',
+                    'role',
+                    'leader_id',
+                    'avatar',
+                    'description',
+                ],
                 form: new Form({
                     username: null,
                     email: null,
@@ -96,6 +140,7 @@
                 }, {
                     http: request,
                 }),
+                leader: null,
 
                 isSubmit: false,
             }

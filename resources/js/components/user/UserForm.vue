@@ -42,6 +42,19 @@
                                   v-model="form.description"/>
                     </timesheet-form-group>
                     <timesheet-form-group
+                        :has-error="form.hasError('leader_id')"
+                        :message="form.getError('leader_id')"
+                    >
+                        <label>Leader</label>
+                        <timesheet-ajax-select
+                            id="leader_id"
+                            name="leader_id"
+                            v-model="leader"
+                            :api="api.getUserSelection"
+                            :params="extendParams"
+                        />
+                    </timesheet-form-group>
+                    <timesheet-form-group
                         :has-error="form.hasError('avatar')"
                         :message="form.getError('avatar')"
                     >
@@ -66,29 +79,54 @@
 </template>
 
 <script>
+    import {mapState} from "vuex";
     import {ROLE_ADMIN} from "common/constant";
     import request from "common/request";
 
     export default {
         async mounted() {
             if (this.isUpdating) {
-                const user = _.pick(await this.$store.dispatch('getUser', this.$route.params.id), this.keys);
+                const user = await this.$store.dispatch('getUser', this.$route.params.id);
                 if (!user) {
                     return;
                 }
 
-                this.form.setInitialValues(user);
+                this.form.setInitialValues({
+                    ..._.pick(user, this.keys),
+                    password: null,
+                    password_confirmation: null,
+                });
                 this.form.populate(user);
+                this.leader = user.leader ? {
+                    label: user.leader.username,
+                    value: user.leader.id,
+                } : null;
             }
         },
 
         computed: {
+            ...mapState({
+                api: ({api}) => api,
+            }),
+
             isUpdating() {
                 return !!(this.$route.params && this.$route.params.id);
             },
 
             isAdmin() {
                 return (this.form && this.form.role === ROLE_ADMIN) || false;
+            },
+
+            extendParams() {
+                return {
+                    excluded: (this.$route.params && this.$route.params.id) || null,
+                };
+            },
+        },
+
+        watch: {
+            leader(newValue) {
+                this.form.leader_id = (newValue && newValue.value) || null;
             },
         },
 
@@ -116,6 +154,7 @@
                 }, {
                     http: request,
                 }),
+                leader: null,
 
                 isSubmit: false,
             }
@@ -138,7 +177,11 @@
 
                 this.getSubmitHandler()
                     .then((response) => {
-                        this.form.setInitialValues(response);
+                        this.form.setInitialValues({
+                            ..._.pick(response, this.keys),
+                            password: null,
+                            password_confirmation: null,
+                        });
                         this.form.populate(response);
 
                         this.$toasted.success(this.isUpdating ? 'Update successful' : 'Create successful');
@@ -148,6 +191,10 @@
                             this.$router.push(`/user/${id}`, () => {
                                 this.form.setInitialValues(response);
                                 this.form.populate(response);
+                                this.leader = response.leader ? {
+                                    label: response.leader.username,
+                                    value: response.leader.id,
+                                } : null;
                                 this.isSubmit = false;
                             });
                         }
