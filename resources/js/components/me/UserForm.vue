@@ -48,7 +48,7 @@
                         <label for="avatar">Avatar</label>
                         <div class="input-group">
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="avatar">
+                                <input type="file" class="custom-file-input" id="avatar" v-on:change="handleSelectFile">
                                 <label class="custom-file-label" for="avatar">Choose file</label>
                             </div>
                         </div>
@@ -75,6 +75,7 @@
             if (this.account && this.account.id) {
                 this.form.setInitialValues(_.pick(this.account, this.whitelist));
                 this.form.populate(this.account);
+                this.form._method = 'PATCH';
                 this.leader = this.account.leader ? {
                     label: this.account.leader.username,
                     value: this.account.leader.id,
@@ -100,24 +101,29 @@
                     excluded: (this.account && this.account.id) || null,
                 };
             },
-
-            leader(newValue) {
-                this.form.leader_id = (newValue && newValue.value) || null;
-            },
         },
 
         watch: {
             account(newValue, oldValue) {
                 if (!oldValue && newValue) {
-                    this.form.setInitialValues(_.pick(newValue, this.whitelist));
+                    this.form.setInitialValues({
+                        ..._.pick(newValue, this.whitelist),
+                        _method: 'PATCH',
+                    });
                 }
 
                 this.form.populate(newValue);
+                this.form._method = 'PATCH';
+                console.log(this.form.data())
                 this.leader = newValue.leader ? {
                     label: newValue.leader.username,
                     value: newValue.leader.id,
                 } : null;
-            }
+            },
+
+            leader(newValue) {
+                this.form.leader_id = (newValue && newValue.value) || null;
+            },
         },
 
         data() {
@@ -147,6 +153,10 @@
         },
 
         methods: {
+            handleSelectFile(event) {
+                this.form.avatar = event.target.files[0];
+            },
+
             submit() {
                 this.isSubmit = true;
 

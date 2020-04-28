@@ -61,7 +61,7 @@
                         <label for="avatar">Avatar</label>
                         <div class="input-group">
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="avatar">
+                                <input type="file" class="custom-file-input" id="avatar" v-on:change="handleSelectFile">
                                 <label class="custom-file-label" for="avatar">Choose file</label>
                             </div>
                         </div>
@@ -91,16 +91,7 @@
                     return;
                 }
 
-                this.form.setInitialValues({
-                    ..._.pick(user, this.keys),
-                    password: null,
-                    password_confirmation: null,
-                });
-                this.form.populate(user);
-                this.leader = user.leader ? {
-                    label: user.leader.username,
-                    value: user.leader.id,
-                } : null;
+                this.initialize(user);
             }
         },
 
@@ -132,7 +123,7 @@
 
         data() {
             return {
-                keys: [
+                whitelist: [
                     'username',
                     'email',
                     'role',
@@ -161,6 +152,26 @@
         },
 
         methods: {
+            initialize(user) {
+                this.form.setInitialValues({
+                    _method: 'PATCH',
+                    ..._.pick(user, this.whitelist),
+                    password: null,
+                    password_confirmation: null,
+                });
+                this.form.populate(user);
+                this.form._method = 'PATCH';
+
+                this.leader = user.leader ? {
+                    label: user.leader.username,
+                    value: user.leader.id,
+                } : null;
+            },
+
+            handleSelectFile(event) {
+                this.form.avatar = event.target.files[0];
+            },
+
             getSubmitHandler() {
                 if (this.isUpdating) {
                     return this.$store.dispatch('updateUser', {
@@ -177,24 +188,14 @@
 
                 this.getSubmitHandler()
                     .then((response) => {
-                        this.form.setInitialValues({
-                            ..._.pick(response, this.keys),
-                            password: null,
-                            password_confirmation: null,
-                        });
-                        this.form.populate(response);
+                        this.initialize(response);
 
                         this.$toasted.success(this.isUpdating ? 'Update successful' : 'Create successful');
 
                         const id = response.id;
                         if (!this.isUpdating && id) {
                             this.$router.push(`/user/${id}`, () => {
-                                this.form.setInitialValues(response);
-                                this.form.populate(response);
-                                this.leader = response.leader ? {
-                                    label: response.leader.username,
-                                    value: response.leader.id,
-                                } : null;
+                                this.this.initialize(response);
                                 this.isSubmit = false;
                             });
                         }

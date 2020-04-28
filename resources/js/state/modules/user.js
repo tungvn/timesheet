@@ -44,7 +44,7 @@ export const actions = {
      * @param form
      */
     updateUser({commit, rootState}, {id, form}) {
-        return form.patch(rootState.api.singleUser(id))
+        return form.post(rootState.api.singleUser(id))
             .then((response) => (response.data));
     },
 
