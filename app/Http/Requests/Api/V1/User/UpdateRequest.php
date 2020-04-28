@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api\V1\User;
 
+use App\Rules\StringOrImageRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -37,9 +38,9 @@ class UpdateRequest extends FormRequest
                 'email',
                 Rule::unique('users')->ignore(request()->route('user')),
             ],
-            'password' => 'sometimes|string|min:8|confirmed',
+            'password' => 'nullable|string|min:8|confirmed',
             'leader_id' => 'nullable|uuid|exists:users,id',
-            'avatar' => 'nullable|string',
+            'avatar' => ['nullable', new StringOrImageRule],
             'description' => 'nullable|string',
         ];
     }

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Rules\StringOrImageRule;
 use App\Timesheets\Authoring\HasAuthors;
 use App\Timesheets\Traits\HasUuid;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Laravel\Passport\HasApiTokens;
 
@@ -68,11 +70,29 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'avatar_url',
+    ];
+
+    /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = [
+        'leader',
+    ];
+
+    /**
      * @return array
      */
     public function getFillable()
     {
-        if (!$this->exists || $this->isAdmin()) {
+        if (!$this->exists || auth()->user()->isAdmin()) {
             return parent::getFillable();
         }
 
@@ -81,6 +101,22 @@ class User extends Authenticatable implements MustVerifyEmail
             'avatar',
             'description',
         ];
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAvatarUrlAttribute()
+    {
+        return is_null($this->avatar) ? null : asset(Storage::url($this->avatar));
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        return $this->role === self::ROLE_ADMIN;
     }
 
     /**
@@ -104,13 +140,13 @@ class User extends Authenticatable implements MustVerifyEmail
                 ],
                 'password'    => 'sometimes|string|min:8|confirmed',
                 'leader_id'   => 'nullable|uuid|exists:users,id',
-                'avatar'      => 'nullable|string',
+                'avatar'      => ['nullable', new StringOrImageRule],
                 'description' => 'nullable|string',
             ];
         }
 
         return [
-            'avatar'      => 'nullable|string',
+            'avatar'      => ['nullable', new StringOrImageRule],
             'description' => 'nullable|string',
         ];
     }
@@ -124,7 +160,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsTo(self::class);
     }
-
 
     /**
      * This user has many followers
@@ -154,14 +189,6 @@ class User extends Authenticatable implements MustVerifyEmail
     public function statistic()
     {
         return $this->hasMany(TimesheetStatistic::class);
-    }
-
-    /**
-     * @return bool
-     */
-    public function isAdmin()
-    {
-        return $this->role === self::ROLE_ADMIN;
     }
 
     /**

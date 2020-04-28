@@ -24,7 +24,12 @@ Route::group(['namespace' => 'Auth'], function () {
 
 Route::middleware('auth:api')->group(function () {
 
-    Route::apiResource('user', 'User\UserController');
+    Route::namespace('User')->group(function () {
+
+        Route::get('user/selection', 'UserSelectionController')->name('user.selection');
+
+        Route::apiResource('user', 'UserController');
+    });
 
     Route::namespace('Me')->group(function () {
 

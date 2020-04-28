@@ -42,16 +42,24 @@
                                   v-model="form.description"/>
                     </timesheet-form-group>
                     <timesheet-form-group
+                        :has-error="form.hasError('leader_id')"
+                        :message="form.getError('leader_id')"
+                    >
+                        <label>Leader</label>
+                        <timesheet-ajax-select
+                            id="leader_id"
+                            name="leader_id"
+                            v-model="leader"
+                            :api="api.getUserSelection"
+                            :params="extendParams"
+                        />
+                    </timesheet-form-group>
+                    <timesheet-form-group
                         :has-error="form.hasError('avatar')"
                         :message="form.getError('avatar')"
                     >
-                        <label for="avatar">Avatar</label>
-                        <div class="input-group">
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="avatar">
-                                <label class="custom-file-label" for="avatar">Choose file</label>
-                            </div>
-                        </div>
+                        <label>Avatar</label>
+                        <timesheet-avatar input-id="avatar" v-model="form.avatar" :url="avatar" />
                     </timesheet-form-group>
                 </div>
 
@@ -66,23 +74,27 @@
 </template>
 
 <script>
+    import {mapState} from "vuex";
     import {ROLE_ADMIN} from "common/constant";
     import request from "common/request";
 
     export default {
         async mounted() {
             if (this.isUpdating) {
-                const user = _.pick(await this.$store.dispatch('getUser', this.$route.params.id), this.keys);
+                const user = await this.$store.dispatch('getUser', this.$route.params.id);
                 if (!user) {
                     return;
                 }
 
-                this.form.setInitialValues(user);
-                this.form.populate(user);
+                this.initialize(user);
             }
         },
 
         computed: {
+            ...mapState({
+                api: ({api}) => api,
+            }),
+
             isUpdating() {
                 return !!(this.$route.params && this.$route.params.id);
             },
@@ -90,11 +102,23 @@
             isAdmin() {
                 return (this.form && this.form.role === ROLE_ADMIN) || false;
             },
+
+            extendParams() {
+                return {
+                    excluded: (this.$route.params && this.$route.params.id) || null,
+                };
+            },
+        },
+
+        watch: {
+            leader(newValue) {
+                this.form.leader_id = (newValue && newValue.value) || null;
+            },
         },
 
         data() {
             return {
-                keys: [
+                whitelist: [
                     'username',
                     'email',
                     'role',
@@ -116,12 +140,31 @@
                 }, {
                     http: request,
                 }),
+                leader: null,
+                avatar: '',
 
                 isSubmit: false,
             }
         },
 
         methods: {
+            initialize(user) {
+                this.form.setInitialValues({
+                    _method: 'PATCH',
+                    ..._.pick(user, this.whitelist),
+                    password: null,
+                    password_confirmation: null,
+                });
+                this.form.populate(user);
+                this.form._method = 'PATCH';
+
+                this.leader = user.leader ? {
+                    label: user.leader.username,
+                    value: user.leader.id,
+                } : null;
+                this.avatar = user.avatar_url || '';
+            },
+
             getSubmitHandler() {
                 if (this.isUpdating) {
                     return this.$store.dispatch('updateUser', {
@@ -138,16 +181,14 @@
 
                 this.getSubmitHandler()
                     .then((response) => {
-                        this.form.setInitialValues(response);
-                        this.form.populate(response);
+                        this.initialize(response);
 
                         this.$toasted.success(this.isUpdating ? 'Update successful' : 'Create successful');
 
                         const id = response.id;
                         if (!this.isUpdating && id) {
                             this.$router.push(`/user/${id}`, () => {
-                                this.form.setInitialValues(response);
-                                this.form.populate(response);
+                                this.this.initialize(response);
                                 this.isSubmit = false;
                             });
                         }

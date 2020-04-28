@@ -11,6 +11,7 @@ use App\Http\Responses\V1\DeleteResponse;
 use App\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Query\JoinClause;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -29,6 +30,12 @@ class UserController extends Controller
                 $join->on('users.id', '=', 'timesheet_statistics.user_id')
                     ->where('month', now()->format('Y-m'));
             })
+            ->select([
+                DB::raw('users.*'),
+                'month',
+                'submit_times',
+                'late_submit_times',
+            ])
             ->paginate(10)
         );
     }
@@ -41,7 +48,12 @@ class UserController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        return new UserResource(User::create($request->all()));
+        $data = $request->all();
+        if ($request->hasFile('avatar')) {
+            $data['avatar'] = $request->file('avatar')->storePublicly('avatars', 'public');
+        }
+
+        return new UserResource(User::create($data));
     }
 
     /**
@@ -67,7 +79,14 @@ class UserController extends Controller
      */
     public function update(UpdateRequest $request, User $user)
     {
-        return new UserResource(tap($user)->update($request->all()));
+        $data = !is_null($request->input('password')) ? $request->all() : $request->except('password');
+        if ($request->hasFile('avatar')) {
+            $data['avatar'] = $request->file('avatar')->storePublicly('avatars', 'public');
+        } elseif ($request->input('avatar')) {
+            unset($data['avatar']);
+        }
+
+        return new UserResource(tap($user)->update($data)->load('leader'));
     }
 
     /**

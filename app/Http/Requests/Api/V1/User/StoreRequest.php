@@ -28,7 +28,7 @@ class StoreRequest extends FormRequest
             'email'       => 'required|email|unique:users',
             'password'    => 'required|string|min:8|confirmed',
             'leader_id'   => 'nullable|uuid|exists:users,id',
-            'avatar'      => 'nullable|string',
+            'avatar'      => 'nullable|image',
             'description' => 'nullable|string',
         ];
     }

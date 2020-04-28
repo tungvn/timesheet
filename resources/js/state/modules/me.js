@@ -62,7 +62,7 @@ export const actions = {
      * @param form
      */
     async updateMe({commit, rootState}, form) {
-        return form.patch(api.me)
+        return form.post(api.me)
             .then((response) => {
                 commit('SET_ACCOUNT', (response && response.data) || null);
             });
