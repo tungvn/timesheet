@@ -16,3 +16,4 @@ Vue.component(`${prefix}modal`, require('./components/common/Modal').default);
  */
 Vue.component(`${prefix}field`, require('./components/common/form/Field').default);
 Vue.component(`${prefix}form-group`, require('./components/common/form/FormGroup').default);
+Vue.component(`${prefix}ajax-select`, require('./components/common/form/AjaxSelect').default);
