@@ -58,13 +58,8 @@
                         :has-error="form.hasError('avatar')"
                         :message="form.getError('avatar')"
                     >
-                        <label for="avatar">Avatar</label>
-                        <div class="input-group">
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="avatar" v-on:change="handleSelectFile">
-                                <label class="custom-file-label" for="avatar">Choose file</label>
-                            </div>
-                        </div>
+                        <label>Avatar</label>
+                        <timesheet-avatar v-model="form.avatar" />
                     </timesheet-form-group>
                 </div>
 
@@ -166,10 +161,6 @@
                     label: user.leader.username,
                     value: user.leader.id,
                 } : null;
-            },
-
-            handleSelectFile(event) {
-                this.form.avatar = event.target.files[0];
             },
 
             getSubmitHandler() {
