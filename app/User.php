@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Rules\StringOrImageRule;
 use App\Timesheets\Authoring\HasAuthors;
 use App\Timesheets\Traits\HasUuid;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -93,6 +94,14 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        return $this->role === self::ROLE_ADMIN;
+    }
+
+    /**
      * @return array
      */
     public function getMeUpdateRules()
@@ -113,13 +122,13 @@ class User extends Authenticatable implements MustVerifyEmail
                 ],
                 'password'    => 'sometimes|string|min:8|confirmed',
                 'leader_id'   => 'nullable|uuid|exists:users,id',
-                'avatar'      => 'nullable|string',
+                'avatar'      => ['nullable', new StringOrImageRule],
                 'description' => 'nullable|string',
             ];
         }
 
         return [
-            'avatar'      => 'nullable|string',
+            'avatar'      => ['nullable', new StringOrImageRule],
             'description' => 'nullable|string',
         ];
     }
@@ -133,7 +142,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsTo(self::class);
     }
-
 
     /**
      * This user has many followers
@@ -163,14 +171,6 @@ class User extends Authenticatable implements MustVerifyEmail
     public function statistic()
     {
         return $this->hasMany(TimesheetStatistic::class);
-    }
-
-    /**
-     * @return bool
-     */
-    public function isAdmin()
-    {
-        return $this->role === self::ROLE_ADMIN;
     }
 
     /**

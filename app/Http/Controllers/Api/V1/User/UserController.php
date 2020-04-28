@@ -48,7 +48,12 @@ class UserController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        return new UserResource(User::create($request->all()));
+        $data = $request->all();
+        if ($request->hasFile('avatar')) {
+            $data['avatar'] = $request->file('avatar')->storePublicly('avatars', 'public');
+        }
+
+        return new UserResource(User::create($data));
     }
 
     /**
@@ -75,6 +80,12 @@ class UserController extends Controller
     public function update(UpdateRequest $request, User $user)
     {
         $data = !is_null($request->input('password')) ? $request->all() : $request->except('password');
+        if ($request->hasFile('avatar')) {
+            $data['avatar'] = $request->file('avatar')->storePublicly('avatars', 'public');
+        } elseif ($request->has('avatar')) {
+            unset($data['avatar']);
+        }
+
         return new UserResource(tap($user)->update($data)->load('leader'));
     }
 
