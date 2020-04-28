@@ -14,15 +14,9 @@
             UserForm,
         },
 
-        mounted() {
-            if (this.$route.params && this.$route.params.id) {
-                this.isCreating = false;
-            }
-        },
-
-        data() {
-            return {
-                isCreating: true,
+        computed: {
+            isCreating() {
+                return !(this.$route.params && this.$route.params.id);
             }
         }
     }
