@@ -82,7 +82,7 @@ class UserController extends Controller
         $data = !is_null($request->input('password')) ? $request->all() : $request->except('password');
         if ($request->hasFile('avatar')) {
             $data['avatar'] = $request->file('avatar')->storePublicly('avatars', 'public');
-        } elseif ($request->has('avatar')) {
+        } elseif ($request->input('avatar')) {
             unset($data['avatar']);
         }
 

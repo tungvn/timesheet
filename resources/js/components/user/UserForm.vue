@@ -59,7 +59,7 @@
                         :message="form.getError('avatar')"
                     >
                         <label>Avatar</label>
-                        <timesheet-avatar v-model="form.avatar" />
+                        <timesheet-avatar input-id="avatar" v-model="form.avatar" :url="avatar" />
                     </timesheet-form-group>
                 </div>
 
@@ -141,6 +141,7 @@
                     http: request,
                 }),
                 leader: null,
+                avatar: '',
 
                 isSubmit: false,
             }
@@ -161,6 +162,7 @@
                     label: user.leader.username,
                     value: user.leader.id,
                 } : null;
+                this.avatar = user.avatar_url || '';
             },
 
             getSubmitHandler() {

@@ -46,7 +46,7 @@
                         :message="form.getError('avatar')"
                     >
                         <label>Avatar</label>
-                        <timesheet-avatar v-model="form.avatar" />
+                        <timesheet-avatar input-id="avatar" v-model="form.avatar" :url="avatar" />
                     </timesheet-form-group>
                 </div>
 
@@ -75,6 +75,7 @@
                     label: this.account.leader.username,
                     value: this.account.leader.id,
                 } : null;
+                this.avatar = this.account.avatar_url || '';
             }
         },
 
@@ -109,11 +110,11 @@
 
                 this.form.populate(newValue);
                 this.form._method = 'PATCH';
-                console.log(this.form.data())
                 this.leader = newValue.leader ? {
                     label: newValue.leader.username,
                     value: newValue.leader.id,
                 } : null;
+                this.avatar = this.account.avatar_url || '';
             },
 
             leader(newValue) {
@@ -142,6 +143,7 @@
                     http: request,
                 }),
                 leader: null,
+                avatar: '',
 
                 isSubmit: false,
             }

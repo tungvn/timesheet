@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Laravel\Passport\HasApiTokens;
 
@@ -69,6 +70,15 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'avatar_url',
+    ];
+
+    /**
      * The relations to eager load on every query.
      *
      * @var array
@@ -91,6 +101,14 @@ class User extends Authenticatable implements MustVerifyEmail
             'avatar',
             'description',
         ];
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAvatarUrlAttribute()
+    {
+        return is_null($this->avatar) ? null : asset(Storage::url($this->avatar));
     }
 
     /**

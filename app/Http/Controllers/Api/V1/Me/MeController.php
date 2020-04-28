@@ -35,7 +35,7 @@ class MeController extends Controller
         $data = $request->only($user->getFillable());
         if ($request->hasFile('avatar')) {
             $data['avatar'] = $request->file('avatar')->storePublicly('avatars', 'public');
-        } elseif ($request->has('avatar')) {
+        } elseif ($request->input('avatar')) {
             unset($data['avatar']);
         }
 
