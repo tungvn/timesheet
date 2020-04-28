@@ -68,11 +68,20 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = [
+        'leader',
+    ];
+
+    /**
      * @return array
      */
     public function getFillable()
     {
-        if (!$this->exists || $this->isAdmin()) {
+        if (!$this->exists || auth()->user()->isAdmin()) {
             return parent::getFillable();
         }
 
