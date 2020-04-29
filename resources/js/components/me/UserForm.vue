@@ -41,6 +41,28 @@
                             :disabled="!isAdmin"
                         />
                     </timesheet-form-group>
+
+                    <timesheet-form-group
+                        :has-error="form.hasError('role')"
+                        :message="form.getError('role')"
+                    >
+                        <label>Role</label>
+                        <select
+                            id="role"
+                            name="role"
+                            class="custom-select"
+                            v-model="form.role"
+                            :disabled="!isAdmin"
+                        >
+                            <option
+                                v-for="(displayRole, role) in roles"
+                                :key="role"
+                                :value="role"
+                                :selected="form.role === role"
+                                v-text="displayRole"
+                            />
+                        </select>
+                    </timesheet-form-group>
                     <timesheet-form-group
                         :has-error="form.hasError('avatar')"
                         :message="form.getError('avatar')"
@@ -62,7 +84,7 @@
 
 <script>
     import {mapGetters, mapState} from "vuex";
-    import {ROLE_ADMIN} from "common/constant";
+    import {ROLE_ADMIN, ROLES} from "common/constant";
     import request from "common/request";
 
     export default {
@@ -144,6 +166,7 @@
                 }),
                 leader: null,
                 avatar: '',
+                roles: {...ROLES},
 
                 isSubmit: false,
             }
