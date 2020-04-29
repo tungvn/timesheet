@@ -21,14 +21,18 @@ class LogoutController extends Controller
         $accessToken = $request->user('api')->token();
 
         DB::table('oauth_refresh_tokens')->whereAccessTokenId($accessToken->id)
-          ->update(['revoked' => true]);
+            ->update(['revoked' => true]);
 
         $accessToken->revoke();
 
-        return response()->json([
-            'data' => [
-                'message' => trans('auth.logout'),
-            ],
-        ]);
+        return response()
+            ->json([
+                'data' => [
+                    'message' => trans('auth.logout'),
+                ],
+            ])
+            ->cookie(config('auth.cookie.auth'), 'logged-out', 1, '/', $request->getHost())
+            ->cookie(config('auth.cookie.refresh'), 'logged-out', 1, '/', $request->getHost())
+            ->cookie(config('auth.cookie.loggedIn'), false, 1, '/', $request->getHost(), false, false);
     }
 }
