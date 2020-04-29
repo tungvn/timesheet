@@ -39,7 +39,7 @@ class UserObserver
      */
     public function updating(User $user)
     {
-        if (isset($user->password)) {
+        if ($user->isDirty('password')) {
             $user->password = Hash::make($user->password);
         }
     }

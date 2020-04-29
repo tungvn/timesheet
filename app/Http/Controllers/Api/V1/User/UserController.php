@@ -79,7 +79,10 @@ class UserController extends Controller
      */
     public function update(UpdateRequest $request, User $user)
     {
-        $data = !is_null($request->input('password')) ? $request->all() : $request->except('password');
+        $data = !is_null($request->input('password')) ? $request->all() : $request->except([
+            'password',
+            'password_confirmation',
+        ]);
         if ($request->hasFile('avatar')) {
             $data['avatar'] = $request->file('avatar')->storePublicly('avatars', 'public');
         } elseif ($request->input('avatar')) {
