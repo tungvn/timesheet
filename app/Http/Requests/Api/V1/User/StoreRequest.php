@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Api\V1\User;
 
+use App\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreRequest extends FormRequest
 {
@@ -28,6 +30,11 @@ class StoreRequest extends FormRequest
             'email'       => 'required|email|unique:users',
             'password'    => 'required|string|min:8|confirmed',
             'leader_id'   => 'nullable|uuid|exists:users,id',
+            'role'        => [
+                'required',
+                'string',
+                Rule::in(User::getRules()),
+            ],
             'avatar'      => 'nullable|image',
             'description' => 'nullable|string',
         ];

@@ -120,6 +120,17 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * @return string[]
+     */
+    public static function getRules()
+    {
+        return [
+            self::ROLE_ADMIN,
+            self::ROLE_USER,
+        ];
+    }
+
+    /**
      * @return array
      */
     public function getMeUpdateRules()
