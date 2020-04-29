@@ -10,7 +10,7 @@
                 <timesheet-table
                     :fields="fields"
                     :api-url="api.user"
-                    :link-to="(id) => `/user/${id}`"
+                    :link-to="linkTo"
                     :delete-func="deleteItem"
                 />
             </div>
@@ -19,13 +19,17 @@
 </template>
 
 <script>
-    import {mapState} from "vuex";
+    import {mapGetters, mapState} from "vuex";
 
     export default {
         computed: {
             ...mapState({
                 api: (state) => state.api,
             }),
+
+            ...mapGetters([
+                'account',
+            ]),
         },
 
         data() {
@@ -66,6 +70,14 @@
         },
 
         methods: {
+            linkTo(id) {
+                if (this.account && this.account.id && this.account.id === id) {
+                    return '/me';
+                }
+
+                return `/user/${id}`;
+            },
+
             deleteItem(id) {
                 return this.$store.dispatch('deleteUser', id);
             }
