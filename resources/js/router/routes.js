@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import store from '../state/store';
+import {ROLE_ADMIN} from "../common/constant";
 
 Vue.use(VueRouter);
 
@@ -69,7 +70,8 @@ const routes = [
         name: 'users',
         component: require('./views/user/Index').default,
         meta: {
-            auth: true
+            auth: true,
+            isAdmin: true,
         },
     },
 
@@ -78,7 +80,8 @@ const routes = [
         name: 'user',
         component: require('./views/user/Edit').default,
         meta: {
-            auth: true
+            auth: true,
+            isAdmin: true,
         },
     },
 
@@ -87,7 +90,7 @@ const routes = [
         name: 'timesheets',
         component: require('./views/timesheet/Index').default,
         meta: {
-            auth: true
+            auth: true,
         },
     },
 
@@ -96,7 +99,7 @@ const routes = [
         name: 'singleTimesheet',
         component: require('./views/timesheet/View').default,
         meta: {
-            auth: true
+            auth: true,
         },
     },
 
@@ -105,7 +108,8 @@ const routes = [
         name: 'settings',
         component: require('./views/setting/Index').default,
         meta: {
-            auth: true
+            auth: true,
+            isAdmin: true,
         },
     },
 ];
@@ -123,6 +127,13 @@ router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.auth)) {
         if (!store.getters.loggedIn) {
             next({path: '/'});
+            return;
+        }
+    }
+
+    if (to.matched.some(record => record.meta.isAdmin)) {
+        if (!store.getters.account || store.getters.account.role !== ROLE_ADMIN) {
+            next(from);
             return;
         }
     }
