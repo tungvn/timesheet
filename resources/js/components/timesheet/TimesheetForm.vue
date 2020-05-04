@@ -126,7 +126,7 @@
                     'status',
                 ],
                 form: new Form({
-                    date: null,
+                    date: new Date().toISOString().slice(0, 10),
                     doing: [{...defaultTask}],
                     problem: null,
                     plan: null,
