@@ -1,23 +1,26 @@
 <template>
-    <div class="modal fade" :class="show ? 'show' : ''" :style="{display: show ? 'flex' : 'none'}">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" v-text="title"></h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <slot></slot>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button v-if="showCloseButton" type="button" class="btn btn-outline-secondary" data-dismiss="modal"
-                            v-text="closeLabel" @click="handleClose"></button>
-                    <button type="button" class="btn btn-outline-primary" v-text="okLabel" @click="handleOk"></button>
+    <div>
+        <div class="modal fade" :class="show ? 'show' : ''" :style="{display: show ? 'flex' : 'none'}" role="dialog">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" v-text="title"></h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <slot></slot>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button v-if="showCloseButton" type="button" class="btn btn-outline-secondary" data-dismiss="modal"
+                                v-text="closeLabel" @click="handleClose"></button>
+                        <button type="button" class="btn btn-outline-primary" v-text="okLabel" @click="handleOk"></button>
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="modal-backdrop fade" :class="show ? 'show' : ''"></div>
     </div>
 </template>
 
