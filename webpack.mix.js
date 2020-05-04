@@ -12,4 +12,24 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css');
+    .sass('resources/sass/app.scss', 'public/css')
+    .options({
+        processCssUrls: false,
+    })
+    .version();
+
+mix.webpackConfig({
+    resolve: {
+        extensions: ['.js', '.vue'],
+        alias: {
+            config: path.join(__dirname, 'resources'),
+            'vue$': 'vue/dist/vue.esm.js',
+            'common': path.resolve(__dirname, 'resources/js/common'),
+            'components': path.resolve(__dirname, 'resources/js/components'),
+        },
+    },
+});
+
+mix.autoload({
+    'jquery': ['$', 'window.jQuery', 'jQuery'],
+});

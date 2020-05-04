@@ -11,5 +11,8 @@ trim_trailing_whitespace = true
 [*.md]
 trim_trailing_whitespace = false
 
-[*.{yml,yaml}]
+[*.php]
+ij_php_align_key_value_pairs = true
+
+[*.{yml, yaml}]
 indent_size = 2
