@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 
 class Timesheet extends Model
 {
@@ -96,6 +97,25 @@ class Timesheet extends Model
     public function scopeWithLeader(Builder $builder)
     {
         return $builder->whereIn($this->getCreatedByColumn(), auth()->user()->followers->map->id);
+    }
+
+
+    /**
+     * @param Builder $builder
+     * @param string|null $from
+     * @param string|null $to
+     * @return Builder
+     */
+    public function scopeWithDateRange(Builder $builder, $from, $to)
+    {
+        if (is_null($from) || is_null($to)) {
+            return $builder;
+        }
+
+        return $builder->where(function (Builder $query) use ($from, $to) {
+            $query->where(DB::raw("DATE({$this->getCreatedByColumn()}) >= $from"))
+                ->where(DB::raw("DATE({$this->getCreatedByColumn()}) <= $to"));
+        });
     }
 
     /**
