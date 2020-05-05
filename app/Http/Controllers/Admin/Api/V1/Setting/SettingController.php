@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1\Setting;
+namespace App\Http\Controllers\Admin\Api\V1\Setting;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\Setting as SettingResource;
