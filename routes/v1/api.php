@@ -27,8 +27,6 @@ Route::middleware('auth:api')->group(function () {
     Route::namespace('User')->group(function () {
 
         Route::get('user/selection', 'UserSelectionController')->name('user.selection');
-
-        Route::apiResource('user', 'UserController');
     });
 
     Route::namespace('Me')->group(function () {
@@ -55,14 +53,6 @@ Route::middleware('auth:api')->group(function () {
             'index',
             'show',
             'destroy',
-        ]);
-    });
-
-    Route::namespace('Setting')->group(function () {
-
-        Route::apiResource('setting', 'SettingController')->only([
-            'index',
-            'update',
         ]);
     });
 });

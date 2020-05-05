@@ -1,4 +1,5 @@
 export const baseApi = '/api/v1';
+export const adminBaseApi = 'admin/api/v1';
 
 export const state = {
     login: `${baseApi}/login`,
@@ -11,14 +12,14 @@ export const state = {
     myTimesheet: `${baseApi}/me/timesheet`,
     singleMyTimesheet: (timesheetId) => `${baseApi}/me/timesheet/${timesheetId}`,
 
-    user: `${baseApi}/user`,
-    singleUser: (userId) => `${baseApi}/user/${userId}`,
+    user: `${adminBaseApi}/user`,
+    singleUser: (userId) => `${adminBaseApi}/user/${userId}`,
     getUserSelection: `${baseApi}/user/selection`,
 
     timesheet: `${baseApi}/timesheet`,
     singleTimesheet: (timesheetId) => `${baseApi}/timesheet/${timesheetId}`,
     approveTimesheet: (timesheetId) => `${baseApi}/timesheet/${timesheetId}/approve`,
 
-    setting: `${baseApi}/setting`,
-    singleSetting: (settingId) => `${baseApi}/setting/${settingId}`,
+    setting: `${adminBaseApi}/setting`,
+    singleSetting: (settingId) => `${adminBaseApi}/setting/${settingId}`,
 };

@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\ApiCookieAuthentication;
+use App\Http\Middleware\VerifyAdminRole;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -53,6 +54,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
+        'admin'            => VerifyAdminRole::class,
         'auth'             => \App\Http\Middleware\Authenticate::class,
         'auth.basic'       => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings'         => \Illuminate\Routing\Middleware\SubstituteBindings::class,
@@ -79,6 +81,7 @@ class Kernel extends HttpKernel
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         ApiCookieAuthentication::class,
         \App\Http\Middleware\Authenticate::class,
+        VerifyAdminRole::class,
         \Illuminate\Routing\Middleware\ThrottleRequests::class,
         \Illuminate\Session\Middleware\AuthenticateSession::class,
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
