@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Exceptions\AdminForbiddenException;
 use Closure;
 use Illuminate\Http\Request;
 use Throwable;
@@ -19,7 +18,7 @@ class VerifyAdminRole
      */
     public function handle($request, Closure $next)
     {
-        throw_if(!auth()->user()->isAdmin(), new AdminForbiddenException('Forbidden Error: You must be administrator', 403));
+        abort_unless(auth()->user()->isAdmin(), 403, 'You must be administrator');
 
         return $next($request);
     }
