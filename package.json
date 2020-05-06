@@ -30,6 +30,7 @@
         "vue-select": "^3.10.2",
         "vue-template-compiler": "^2.6.11",
         "vue-toasted": "^1.1.28",
+        "vue2-daterange-picker": "^0.5.0",
         "vuetable-2": "next",
         "vuex": "^3.1.3"
     },

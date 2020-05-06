@@ -7,7 +7,11 @@
                     :delete-func="deleteItem"
                     :fields="fields"
                     :link-to="(id) => `/timesheet/${id}`"
-                />
+                >
+                    <template v-slot:filter="slotProps">
+                        <date-range-filter :params="slotProps.params" :filter="slotProps.filter" />
+                    </template>
+                </timesheet-table>
             </div>
         </template>
     </timesheet-layout>
@@ -15,9 +19,14 @@
 
 <script>
     import {mapState} from "vuex";
-    import {STATUS_APPROVED, STATUS_CHANGED} from "../../../common/constant";
+    import {STATUS_APPROVED, STATUS_CHANGED} from "common/constant";
+    import DateRangeFilter from "components/common/table/DateRangeFilter";
 
     export default {
+        components: {
+            DateRangeFilter,
+        },
+
         computed: {
             ...mapState({
                 api: (state) => state.api,

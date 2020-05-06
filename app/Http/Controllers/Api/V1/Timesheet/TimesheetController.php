@@ -7,18 +7,27 @@ use App\Http\Resources\V1\Timesheet as TimesheetResource;
 use App\Http\Resources\V1\TimesheetCollection;
 use App\Http\Responses\V1\DeleteResponse;
 use App\Timesheet;
+use App\Timesheets\Traits\UsingDateRange;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Request;
 
 class TimesheetController extends Controller
 {
+    use UsingDateRange;
+
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return TimesheetCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        return new TimesheetCollection(Timesheet::withLeader()->paginate(10));
+        $builder = Timesheet::query()->withLeader();
+
+        list($from, $to) = $this->handleDateRange($request);
+
+        return new TimesheetCollection($builder->withDateRange($from, $to)->orderByDesc('created_at')->paginate(10));
     }
 
     /**
