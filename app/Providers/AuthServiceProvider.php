@@ -2,10 +2,8 @@
 
 namespace App\Providers;
 
-use App\Policies\SettingPolicy;
 use App\Policies\TimesheetPolicy;
 use App\Policies\UserPolicy;
-use App\Setting;
 use App\Timesheet;
 use App\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -19,7 +17,6 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        Setting::class   => SettingPolicy::class,
         Timesheet::class => TimesheetPolicy::class,
         User::class      => UserPolicy::class,
     ];
