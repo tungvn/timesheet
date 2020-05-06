@@ -9,7 +9,6 @@ use App\Http\Resources\V1\User as UserResource;
 use App\Http\Resources\V1\UserCollection;
 use App\Http\Responses\V1\DeleteResponse;
 use App\User;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\DB;
 
@@ -19,12 +18,9 @@ class UserController extends Controller
      * Display a listing of the resource.
      *
      * @return UserCollection
-     * @throws AuthorizationException
      */
     public function index()
     {
-        $this->authorize('index', User::class);
-
         return new UserCollection(User::query()
             ->leftJoin('timesheet_statistics', function (JoinClause $join) {
                 $join->on('users.id', '=', 'timesheet_statistics.user_id')
@@ -61,12 +57,9 @@ class UserController extends Controller
      *
      * @param User $user
      * @return UserResource
-     * @throws AuthorizationException
      */
     public function show(User $user)
     {
-        $this->authorize('view', $user);
-
         return new UserResource($user);
     }
 
@@ -97,13 +90,10 @@ class UserController extends Controller
      *
      * @param User $user
      * @return DeleteResponse
-     * @throws AuthorizationException
      * @throws \Exception
      */
     public function destroy(User $user)
     {
-        $this->authorize('delete', $user);
-
         $user->delete();
 
         return new DeleteResponse(__('messages.users.deleted'));

@@ -44,7 +44,7 @@ class ChangePasswordRequest extends FormRequest
                     }
                 },
             ],
-            'new_password' => 'required|string|min:8|confirmed',
+            'new_password' => 'required|string|min:8|different:password|confirmed',
         ];
     }
 }
