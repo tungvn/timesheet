@@ -113,8 +113,8 @@ class Timesheet extends Model
         }
 
         return $builder->where(function (Builder $query) use ($from, $to) {
-            $query->where(DB::raw("DATE({$this->getCreatedByColumn()}) >= $from"))
-                ->where(DB::raw("DATE({$this->getCreatedByColumn()}) <= $to"));
+            $query->where(DB::raw("DATE(date)"),  '>=', $from)
+                ->where(DB::raw("DATE(date)"), '<=', $to);
         });
     }
 
