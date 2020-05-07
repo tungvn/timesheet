@@ -31,14 +31,6 @@ class MeController extends Controller
      */
     public function update(UpdateRequest $request)
     {
-        $user = auth()->user();
-        $data = $request->only($user->getFillable());
-        if ($request->hasFile('avatar')) {
-            $data['avatar'] = $request->file('avatar')->storePublicly('avatars', 'public');
-        } elseif ($request->input('avatar')) {
-            unset($data['avatar']);
-        }
-
-        return new UserResource(tap($user)->update($data));
+        return new UserResource(auth()->user()->updateByRequest($request));
     }
 }

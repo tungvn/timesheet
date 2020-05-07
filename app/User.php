@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -209,5 +210,31 @@ class User extends Authenticatable implements MustVerifyEmail
     public function findForPassport(string $username)
     {
         return $this->where('username', $username)->first();
+    }
+
+    /**
+     * @param Request $request
+     * @return User
+     */
+    public function updateByRequest(Request $request)
+    {
+        $data = $request->only($this->getFillable());
+
+        if (auth()->id() !== $this->id) {
+            $data = !is_null($request->input('password')) ? $request->all() : $request->except([
+                'password',
+                'password_confirmation',
+            ]);
+        }
+
+        if ($request->hasFile('avatar')) {
+            $data['avatar'] = $request->file('avatar')->storePublicly('avatars', 'public');
+        } elseif ($request->input('avatar')) {
+            unset($data['avatar']);
+        }
+
+        $this->update($data);
+
+        return $this->refresh();
     }
 }
