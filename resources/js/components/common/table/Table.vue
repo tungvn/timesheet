@@ -140,7 +140,6 @@
             },
 
             httpFetch(api, httpOptions) {
-                console.log(httpOptions)
                 return request.get(api, {params: httpOptions.params});
             },
 
