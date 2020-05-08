@@ -30,31 +30,8 @@
                         <label>Doing Tasks</label>
                     </timesheet-form-group>
 
-                    <div class="pl-4 mb-3">
-                        <timesheet-field
-                            :key="key"
-                            class="input-group-sm"
-                            v-for="(task, key) in form.doing"
-                        >
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Task {{ key + 1 }}</span>
-                            </div>
-                            <input class="form-control" placeholder="Task ID" type="text"
-                                   v-model="form.doing[key].task_id"/>
-                            <input class="form-control" placeholder="Task Content" type="text"
-                                   v-model="form.doing[key].content"/>
-                            <input class="form-control" placeholder="Time Spend (hour)" type="text"
-                                   v-model="form.doing[key].spend_time"/>
-                            <div class="input-group-append">
-                                <button @click="deleteTask(key)" class="btn btn-outline-secondary" type="button">
-                                    <icon icon="trash"/>
-                                </button>
-                            </div>
-                        </timesheet-field>
+                    <task :tasks.sync="form.doing" />
 
-                        <button @click="addTask" class="btn btn-sm btn-outline-secondary" type="button">Add New Task
-                        </button>
-                    </div>
                     <timesheet-form-group
                         :has-error="form.hasError('problem')"
                         :message="form.getError('problem')"
@@ -86,6 +63,7 @@
 <script>
     import Cleave from 'vue-cleave-component';
     import request from "common/request";
+    import Task from "./Task";
 
     const defaultTask = {
         task_id: 'N/A',
@@ -96,6 +74,7 @@
     export default {
         components: {
             Cleave,
+            Task,
         },
 
         async mounted() {
@@ -172,14 +151,6 @@
                     .finally(() => {
                         this.isSubmit = false;
                     })
-            },
-
-            addTask() {
-                this.form.doing.push({...defaultTask});
-            },
-
-            deleteTask(key) {
-                this.form.doing.splice(key, 1);
             },
         }
     }
